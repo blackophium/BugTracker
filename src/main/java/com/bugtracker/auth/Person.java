@@ -5,15 +5,16 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
+import com.bugtracker.validators.UniqueUsername;
+import com.bugtracker.validators.ValidPasswords;
 import java.util.Set;
-
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@UniqueUsername
+@ValidPasswords
 
 public class Person {
 
@@ -22,7 +23,7 @@ public class Person {
     Long id;
 
     @NotEmpty
-    @Size(min = 5, max = 255)//hasło
+    @Size(min = 5, max = 255)
     @Column(nullable = false, unique = true)
     String username;
 
@@ -30,7 +31,7 @@ public class Person {
     String password;
 
     @Transient
-    String repeatedPassword;     //powtorzenie hasla
+    String repeatedPassword;
 
     @NotEmpty
     @Size(min = 5, max = 255)
@@ -41,6 +42,7 @@ public class Person {
     @ColumnDefault(value = "true")
     Boolean enabled = true;
 
+    @NotEmpty
     @Column(nullable = true)
 
     @ManyToMany(cascade = CascadeType.MERGE)
@@ -50,13 +52,13 @@ public class Person {
     Set<Authority> authorities;
 
 
-
     public Person(String username, String password, String name) {
         this.username = username;
         this.password = password;
         this.name = name;
 
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

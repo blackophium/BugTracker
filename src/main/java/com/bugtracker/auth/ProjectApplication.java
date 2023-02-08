@@ -1,17 +1,14 @@
-package com.bugtracker;
+package com.bugtracker.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
-
 @SpringBootApplication
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class BugTrackerApplication {
+public class ProjectApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BugTrackerApplication.class, args);
-    }
+        SpringApplication.run(ProjectApplication.class, args); }
 
 }
-
