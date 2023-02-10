@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 import com.bugtracker.validators.UniqueUsername;
 import com.bugtracker.validators.ValidPasswords;
 import java.util.Set;

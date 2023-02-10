@@ -1,10 +1,10 @@
 package com.bugtracker.auth;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class PersonService {
     @Value("${my.admin.password}")
     private String myAdminPassword;
 
+    @Autowired
     public PersonService(PersonRepository personRepository, AuthorityRepository authorityRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.personRepository = personRepository;
         this.authorityRepository = authorityRepository;

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{application.name}"></title>
+
+    <link rel="shortcut icon" href="/images/favicon.png">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+            integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet"
+          type="text/css"/>
+</head>
+<body>
+
+<section class="container">
+    <h3 th:text="#{nav.issues}" class="pb-3"></h3>
+
+    <form th:action="@{/issue}" th:object="${filter}"
+          class="form-inline">
+
+        <select th:field="*{project}"
+                class="form-control"
+                onchange="this.form.submit()">
+            <option th:value="${null}" th:text="#{project.placeholder}">
+            </option>
+            <option th:each="project : ${projects}"
+                    th:value="${project.id}"
+                    th:text="${project.name}"></option>
+        </select>
+
+        <select th:field="*{assignee}"
+                class="form-control"
+                onchange="this.form.submit()">
+            <option th:value="${null}" th:text="#{assignee.placeholder}"></option>
+            <option th:each="person : ${people}"
+                    th:value="${person.id}"
+                    th:text="${person.name}"></option>
+        </select>
+
+        <select th:field="*{state}"
+                class="form-control"
+                onchange="this.form.submit()">
+            <option th:value="${null}" th:text="#{state.placeholder}"></option>
+            <option th:each="state : ${states}"
+                    th:value="${state}"
+                    th:text="${#messages.msg('state.' + state)}"></option>
+        </select>
+
+        <input th:field="*{title}"
+               class="form-control"
+               th:placeholder="#{title.placeholder}"/>
+
+        <input th:field="*{globalSearch}"
+               class="form-control"
+               th:placeholder="#{globalSearch.placeholder}"/>
+
+        <button class="btn btn-primary" type="submit" th:text="#{common.search}"></button>
+        <a th:href="@{/issue}" th:text="#{common.clear}" class="btn btn-default"></a>
+    </form>
+
+
+    <div th:each="issue : ${issues}">
+        <span th:text="${issue.id}"></span> |
+        <span th:text="${issue.project.name}"></span> |
+        <span th:text="${issue.state}"></span> |
+        <span th:text="${issue.title}"></span> |
+        <span th:text="${issue.content}"></span> |
+        <span th:if="${issue.assignee != null}" th:text="${issue.assignee.name}"></span>
+    </div>
+</section>
+
+</body>
+</html>

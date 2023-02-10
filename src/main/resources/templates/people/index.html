@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Spring Security Demo</title>
+    <title>Bug Tracker</title>
 
     <link rel="shortcut icon" href="/images/favicon.ico">
 
@@ -18,6 +18,9 @@
 </head>
 <body>
 <section class="container">
+    <img src="logo.jpg" alt="Logo strony" />
+    </div>
+
     <h1>
         Użytkownicy
     </h1>
@@ -38,12 +41,11 @@
         </thead>
         <tr th:each="person : ${people}">
             <td>
-                <a th:href="@{'/people/edit/' + ${person.id}}"
-                   th:text="${person.id}"
-                   class="btn btn-secondary"></a>
+                <a th:href=""></a>
             </td>
-            <td th:text="${person.username}"></td>
-            <td th:text="${person.name}"></td>
+            <td>th:text="${person.id}"></td>
+            <td> {person.username}"></td>
+            <td> {person.name}"></td>
         </tr>
     </table>
 
@@ -51,6 +53,9 @@
         <a th:href="@{'/people/create/'}"
            th:text="Dodaj"
            class="btn btn-primary"></a>
+    </div>
+    </div>
+    <div th:replace="fragments/footer :: footer">&copy; Bug tracker aplikacja </div>
     </div>
 </section>
 </body>

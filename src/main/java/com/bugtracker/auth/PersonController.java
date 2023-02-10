@@ -1,5 +1,6 @@
 package com.bugtracker.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
+
 @Controller
 @RequestMapping("/people")
 public class PersonController {
@@ -17,6 +19,7 @@ public class PersonController {
     private final PersonService personService;
     private final PersonRepository personRepository;
 
+    @Autowired
     public PersonController(AuthorityRepository authorityRepository, PersonService personService, PersonRepository personRepository) {
         this.authorityRepository = authorityRepository;
         this.personService = personService;

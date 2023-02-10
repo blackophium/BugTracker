@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Projekty</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Zadania</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Lista</a></li>
+                <li><a class="dropdown-item" href="#">Nowe zadanie</a></li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Użytkownicy</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

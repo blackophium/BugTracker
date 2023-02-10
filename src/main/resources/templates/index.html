@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Spring Security Demo</title>
+  <title>Bug tracker</title>
 
   <link rel="shortcut icon" href="/images/favicon.ico">
 
@@ -18,17 +18,17 @@
 </head>
 <body>
 <section class="container">
-  Spring Security Demo
+  <!--    <div th:insert="fragments/header :: header">...</div>-->
+  <section class="container">
 
-  <hr/>
+    Bug Tracker
 
-  <a th:href="@{/people/}" class="btn btn-default mb-2" th:text="Użytkownicy"></a>
+    <hr/>
 
-  <hr/>
-
-  <form th:action="@{/logout}" method="post" class="form-inline">
-    <input type="submit" th:value="#{login.logout}" class="btn btn-secondary"/>
-  </form>
-</section>
+    <form th:action="@{/logout}" method="post" class="form-inline">
+      <input type="submit" th:value="#{login.logout}" class="btn btn-secondary"/>
+    </form>
+  </section>
+  <div th:insert="fragments/footer :: ${isAdmin} ? 'footer-admin' : 'footer'"></div>
 </body>
 </html>
