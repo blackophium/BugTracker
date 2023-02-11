@@ -1,7 +1,7 @@
-package com.bugtracker.validators;
+/*package com.bugtracker.validators;
 
-import com.bugtracker.auth.Person;
-import com.bugtracker.auth.PersonRepository;
+import com.bugtracker.Person.Person;
+import com.bugtracker.Person.PersonRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -40,3 +40,4 @@ public class UsernameUniquenessValidator
         return usernameIsUnique;
     }
 }
+*/

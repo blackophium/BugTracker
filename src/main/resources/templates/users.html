@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<div class="container my-2">
+    <div layout:fragment="content">
+        <div class="card">
+            <div class="card-body">
+                <div th:switch="${users}" class="container my-5">
+                    <p class="my-5">
+                        <a href="/users/showForm" class="btn btn-primary"><i
+                                class="fas fa-user-plus ml-2" th:text="#{addUser.add}"> Add User</i></a>
+                    </p>
+                    <div class="col-md-10">
+                        <h2 th:case="null">No Users yet!</h2>
+                        <div th:case="*">
+                            <table class="table table-striped table-responsive-md">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{addUser.lastName}">Last name</th>
+                                    <th th:text="#{addUser.firstName}">First name</th>
+                                    <th th:text="#{addUser.username}">Username</th>
+                                    <th th:text="#{addUser.role}">Role</th>
+                                    <th th:text="#{addUser.email}">Email</th>
+                                    <th th:text="#{addUser.date}">Created date</th>
+                                    <th th:text="#{addUser.edit}">Edit</th>
+                                    <th th:text="#{addUser.delete}">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}" th:if="${user.enabled}">
+                                    <td th:text="${user.lastName}"></td>
+                                    <td th:text="${user.firstName}"></td>
+                                    <td th:text="${user.username}"></td>
+                                    <td th:text="${user.role}"></td>
+                                    <!--                                    <td th:text="${user.email}"></td>-->
+                                    <td th:text="${user.authorities}"></td>
+                                    <td th:text="${#dates.format(user.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
+                                    <!--                                    <td th:text="${student.dateCreated}"></td>-->
+                                    <td><a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary" th:text="#{addUser.edit}" ><i
+                                            class="fas fa-user-edit ml-2"></i></a></td>
+                                    <td><a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger" th:text="#{addUser.delete}"><i
+                                            class="fas fa-user-times ml-2"></i></a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

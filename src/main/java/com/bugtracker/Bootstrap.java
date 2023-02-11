@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.bugtracker.auth.Authority;
 import com.bugtracker.auth.AuthorityRepository;
 import com.bugtracker.enums.AuthorityName;
-import com.bugtracker.auth.PersonService;
+import com.bugtracker.person.PersonService;
 
 
 @Service
@@ -24,17 +24,15 @@ public class Bootstrap implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        System.out.println("Rozpoczynamy przygotowywanie aplikacji...");
         prepareAuthorities();
         personService.prepareAdminUser();
     }
 
     private void prepareAuthorities() {
-        for (AuthorityName authorityName : AuthorityName.values()) {
-            Authority existingAuthority = authorityRepository.findByName(authorityName);
-            if (existingAuthority == null) {
+        for (AuthorityName authorityName: AuthorityName.values()) {
+            Authority existingAuthority = authorityRepository.findByAuthority(authorityName);
+            if (existingAuthority == null){
                 Authority authority = new Authority(authorityName);
-
                 authorityRepository.save(authority);
                 System.out.println("Zapisano nowe uprawienie: " + authorityName.name());
             }
