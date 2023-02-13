@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div th:switch="${users}" class="container my-5">
                     <p class="my-5">
-                        <a href="/users/showForm" class="btn btn-primary"><i
+                        <a href="/users/create" class="btn btn-primary"><i
                                 class="fas fa-user-plus ml-2" th:text="#{addUser.add}"> Add User</i></a>
                     </p>
                     <div class="col-md-10">
@@ -38,21 +38,16 @@
                                     <td th:text="${user.firstName}"></td>
                                     <td th:text="${user.username}"></td>
                                     <td th:text="${user.role}"></td>
-                                    <!--                                    <td th:text="${user.email}"></td>-->
                                     <td th:text="${user.authorities}"></td>
                                     <td th:text="${#dates.format(user.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
-                                    <!--                                    <td th:text="${student.dateCreated}"></td>-->
                                     <td><a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary"
-                                           th:text="#{addUser.edit}"><i
-                                            class="fas fa-user-edit ml-2"></i></a></td>
+                                           th:text="#{addUser.edit}"></a></td>
                                     <td><a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger"
-                                           th:text="#{addUser.delete}"><i
-                                            class="fas fa-user-times ml-2"></i></a></td>
+                                           th:text="#{addUser.delete}"></a></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>

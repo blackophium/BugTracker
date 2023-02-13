@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.bugtracker.auth.AuthorityRepository;
-import com.bugtracker.person.PersonService;
 
 import javax.validation.Valid;
 

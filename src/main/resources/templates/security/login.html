@@ -31,10 +31,10 @@
         <div class="mt-3">
             <button type="submit" class="btn btn-primary" th:text="#{login.label}"></button>
         </div>
+
     </form>
 </div>
-<div style="text-align:center" th:fragment="footer">
-    &copy; 2023 Agnieszka Szatkowska
-</div>
 </body>
+<div style="text-align:center" th:insert="fragments/footer :: footer">&copy; 2023 Agnieszka Szatkowska
+</div>
 </html>

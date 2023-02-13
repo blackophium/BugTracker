@@ -30,7 +30,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    public Long id;
 
     @NotEmpty
     @Size(min = 1, max = 20)
