@@ -53,7 +53,7 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    private void savePerson(Person person){
+    void savePerson(Person person){
         String hashedPassword = bCryptPasswordEncoder.encode(person.getPassword());
         person.setPassword(hashedPassword);
         personRepository.save(person);

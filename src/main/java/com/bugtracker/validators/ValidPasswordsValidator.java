@@ -1,12 +1,11 @@
-/*package com.bugtracker.validators;
+package com.bugtracker.validators;
 
-import com.bugtracker.Person.Person;
+import com.bugtracker.person.Person;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class ValidPasswordsValidator implements ConstraintValidator<ValidPasswords, Person> {
-
     @Override
     public void initialize(ValidPasswords constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
@@ -20,10 +19,11 @@ public class ValidPasswordsValidator implements ConstraintValidator<ValidPasswor
                 ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
                         .addPropertyNode("password")
                         .addConstraintViolation();
+
                 return false;
-            } else {
-                return true;
             }
+
+            return true;
         }
 
         boolean passwordsAreValid = person.getPassword().equals(person.getRepeatedPassword());
@@ -31,12 +31,13 @@ public class ValidPasswordsValidator implements ConstraintValidator<ValidPasswor
         if (passwordsAreValid) {
             return true;
         } else {
+
             ctx.disableDefaultConstraintViolation();
             ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
                     .addPropertyNode("repeatedPassword")
                     .addConstraintViolation();
+
             return false;
         }
     }
 }
-*/

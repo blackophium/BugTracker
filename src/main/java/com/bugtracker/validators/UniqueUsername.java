@@ -1,4 +1,4 @@
-/*package com.bugtracker.validators;
+package com.bugtracker.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.FIELD, ElementType.TYPE})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameUniquenessValidator.class)
 public @interface UniqueUsername {
@@ -17,4 +17,3 @@ public @interface UniqueUsername {
 
     Class<? extends Payload>[] payload() default {};
 }
-*/

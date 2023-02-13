@@ -1,19 +1,23 @@
-/*package com.bugtracker.validators;
+package com.bugtracker.validators;
 
-import com.bugtracker.Person.Person;
-import com.bugtracker.Person.PersonRepository;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UsernameUniquenessValidator
-        implements ConstraintValidator<UniqueUsername, Person> {
+import com.bugtracker.person.Person;
+import com.bugtracker.person.PersonRepository;
+
+import java.util.Optional;
+
+public class UsernameUniquenessValidator implements ConstraintValidator<UniqueUsername, Person> {
 
     private final PersonRepository personRepository;
 
+    @Autowired
     public UsernameUniquenessValidator(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
+
 
     @Override
     public void initialize(UniqueUsername constraintAnnotation) {
@@ -22,13 +26,13 @@ public class UsernameUniquenessValidator
 
     @Override
     public boolean isValid(Person person, ConstraintValidatorContext ctx) {
-        Person foundPerson = personRepository.findByUsername(person.getUsername());
+        Optional<Person> foundPerson = personRepository.findByUsername(person.getUsername());
 
-        if (foundPerson == null) {
+        if (foundPerson.isEmpty()) {
             return true;
         }
 
-        boolean usernameIsUnique = person.getId() != null && foundPerson.getId().equals(person.getId());
+        boolean usernameIsUnique = person.getId() != null && foundPerson.get().getId().equals(person.getId());
 
         if (!usernameIsUnique) {
             ctx.disableDefaultConstraintViolation();
@@ -40,4 +44,3 @@ public class UsernameUniquenessValidator
         return usernameIsUnique;
     }
 }
-*/

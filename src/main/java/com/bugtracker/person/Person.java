@@ -4,47 +4,64 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import com.bugtracker.auth.Authority;
+import com.bugtracker.comment.Comment;
+import com.bugtracker.enums.Role;
+import com.bugtracker.project.Project;
+import com.bugtracker.validators.UniqueUsername;
+import com.bugtracker.validators.ValidPasswords;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
-
-import com.bugtracker.auth.Authority;
-import com.bugtracker.enums.Role;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@ValidPasswords
+@UniqueUsername
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty
+    @Size(min = 1, max = 20)
     @Column(nullable = false, unique = true, length = 100)
-    @NotBlank(message = "Username is mandatory")
     private String username;
 
     @Column(nullable = false)
+    @Size(min = 8, max = 35)
     @NotBlank(message = "Password is mandatory")
     private String password;
 
+    @Transient
+    String repeatedPassword;
+
     @Column(nullable = false)
-    @NotBlank(message = "Firstname is mandatory")
+    @Size(min = 5, max = 20)
+    @NotBlank
     private String firstName;
 
     @Column(nullable = false)
-    @NotBlank(message = "Lastname is mandatory")
+    @Size(min = 5, max = 30)
+    @NotBlank
     private String lastName;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(nullable = false)
     @NotBlank(message = "Email is mandatory")
+    @Pattern(regexp="[A-Za-z0-9._%-+]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}")
     private String email;
 
     @ColumnDefault("true")
@@ -60,6 +77,11 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     Set<Authority> authorities;
 
+    @OneToMany(mappedBy = "creator")
+    Set<Project> createdProjects;
+    @OneToMany(mappedBy = "issue")
+    List<Comment> comments;
+
     public Person(String username, String password, String firstName, String lastName, Role role, String email) {
         this.username = username;
         this.password = password;
@@ -68,6 +90,11 @@ public class Person {
         this.role = role;
         this.email = email;
     }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
 
     @Override
     public String toString() {

@@ -18,7 +18,7 @@ public class Authority {
 
     @Id
     @GeneratedValue
-    Long id;
+    public Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
