@@ -1,4 +1,4 @@
-package com.bugtracker.validators;
+/*package com.bugtracker.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -17,3 +17,4 @@ public @interface UniqueUsername {
 
     Class<? extends Payload>[] payload() default {};
 }
+*/

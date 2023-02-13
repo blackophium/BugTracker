@@ -1,10 +1,17 @@
 package com.bugtracker.auth;
 
 import com.bugtracker.enums.AuthorityName;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface AuthorityRepository extends JpaRepository<Authority, Long> {
-    Authority findByName(AuthorityName name);
+import java.util.Optional;
+
+public interface AuthorityRepository extends CrudRepository<Authority, Long> {
+
+    @Query("select a from Person p join p.authorities a where p.username = :username order by a.authority")
+    Iterable<Authority> findAllByPersonUsername(String username);
+
+    Optional<Authority> findByAuthority(String authority);
+
+    Authority findByAuthority(AuthorityName name);
 }

@@ -1,6 +1,6 @@
-package com.bugtracker.validators;
+/*package com.bugtracker.validators;
 
-import com.bugtracker.auth.Person;
+import com.bugtracker.Person.Person;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -39,3 +39,4 @@ public class ValidPasswordsValidator implements ConstraintValidator<ValidPasswor
         }
     }
 }
+*/
