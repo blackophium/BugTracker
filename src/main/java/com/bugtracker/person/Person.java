@@ -30,7 +30,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
     @NotEmpty
     @Size(min = 1, max = 20)
@@ -94,7 +94,6 @@ public class Person {
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
-
 
     @Override
     public String toString() {

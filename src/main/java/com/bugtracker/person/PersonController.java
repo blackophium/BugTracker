@@ -1,6 +1,7 @@
 package com.bugtracker.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.access.annotation.Secured;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import com.bugtracker.auth.AuthorityRepository;
 
 import javax.validation.Valid;
-
-
 
 @Controller
 @RequestMapping("/users")
@@ -36,9 +35,10 @@ public class PersonController {
     }
     */
     @GetMapping("/list")
+    @Secured("ROLE_USERS_TAB")
     public String users(Model model){
         model.addAttribute("users", this.personRepository.findAll());
-        return "users";
+        return "user/users";
     }
     /*
     @RequestMapping("/addUser")

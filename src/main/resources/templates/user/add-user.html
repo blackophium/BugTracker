@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{layout}"
+<html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect"
->
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Add user</title>
@@ -68,7 +68,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="role" class="col-form-label" th:text="#{addUser.role}">Role</label>
+                        <!--                        <label for="role" class="col-form-label" th:text="#{addUser.role}">Role</label>-->
                         <select class="form-control" id="role" name="role">
                             <option th:each="roleOpt : ${T(com.bugtracker.enums.Role).values()}"
                                     th:value="${roleOpt}" th:text="${roleOpt.description}">Role
@@ -89,12 +89,6 @@
                         <label th:text="#{${'authority.' + authority.authority}}"
                                th:for="${#ids.prev('authorities')}"></label>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mt-5">
-                    <input type="submit" class="btn btn-primary">
                 </div>
             </div>
 

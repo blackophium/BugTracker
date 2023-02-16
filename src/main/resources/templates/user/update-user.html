@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{layout}"
+<html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
 <head>
@@ -88,12 +88,6 @@
                         <label th:text="#{${'authority.' + authority.authority}}"
                                th:for="${#ids.prev('authorities')}"></label>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6 mt-5">
-                    <input type="submit" class="btn btn-primary">
                 </div>
             </div>
 

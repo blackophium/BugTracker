@@ -1,8 +1,8 @@
 package com.bugtracker.auth;
 
-import com.bugtracker.enums.AuthorityName;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import com.bugtracker.enums.AuthorityName;
 
 import java.util.Optional;
 

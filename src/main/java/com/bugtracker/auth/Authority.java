@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import com.bugtracker.enums.AuthorityName;
+
 import javax.persistence.*;
 
 @Entity

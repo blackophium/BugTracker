@@ -21,8 +21,8 @@ public class Project {
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-    @OneToMany(mappedBy = "project")
-    private Set<Issue> issues;
+    //@OneToMany(mappedBy = "project")
+    //private Set<Issue> issues;
     private Boolean enabled;
     @Column(nullable = false)
     private final Date dateCreated = new Date();
