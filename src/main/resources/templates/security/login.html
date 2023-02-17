@@ -20,18 +20,22 @@
 
         <div class="form-group">
             <label for="username"></label>
-            <input id="username" type="text" name="username" class="form-control" autofocus th:placeholder="#{user.placeholder}" alt="username"/>
+            <input id="username" type="text" name="username" class="form-control" autofocus/>
         </div>
 
         <div class="form-group">
             <label for="password"></label>
-            <input id="password" type="password" name="password" class="form-control" th:placeholder="#{password.placeholder}" alt="password"/>
+            <input id="password" type="password" name="password" class="form-control"/>
         </div>
 
         <div class="mt-3">
             <button type="submit" class="btn btn-primary" th:text="#{login.label}"></button>
         </div>
+
     </form>
 </div>
 </body>
+<div style="text-align:center" th:insert="fragments/footer :: footer">&copy; 2014 The Static
+    Templates
+</div>
 </html>

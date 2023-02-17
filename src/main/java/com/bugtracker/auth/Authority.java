@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import com.bugtracker.enums.AuthorityName;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,7 +19,7 @@ public class Authority {
 
     @Id
     @GeneratedValue
-    Long id;
+    public Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)

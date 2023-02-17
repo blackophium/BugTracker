@@ -9,7 +9,6 @@ public class LoginController {
 
     @RequestMapping("/login")
     public String index() {
-
         return "security/login";
     }
 }

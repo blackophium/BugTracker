@@ -1,16 +1,16 @@
 package com.bugtracker.person;
 
-import com.bugtracker.enums.Role;
-import com.bugtracker.auth.Authority;
-import com.bugtracker.auth.AuthorityRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.bugtracker.enums.Role;
+import com.bugtracker.auth.Authority;
+import com.bugtracker.auth.AuthorityRepository;
 
 import java.util.HashSet;
 import java.util.List;
+
 @Service
 public class PersonService {
 
@@ -53,7 +53,7 @@ public class PersonService {
         personRepository.save(person);
     }
 
-    private void savePerson(Person person){
+    void savePerson(Person person){
         String hashedPassword = bCryptPasswordEncoder.encode(person.getPassword());
         person.setPassword(hashedPassword);
         personRepository.save(person);
