@@ -37,8 +37,8 @@
                         <label for="type" th:text="#{addIssue.type}"></label>
                         <select class="form-control" name="type" id="type">
                             <option th:value="${null}" th:text="#{type.placeholder}"></option>
-                            <option th:each="type : ${T(com.bugtracker.enums.Type).values()}"
-                                    th:value="${type}" th:text="${type}">Type
+                            <option th:each="type : ${types}"
+                                    th:value="${type}" th:text="${#messages.msg('type.' + type)}">Type
                             </option>
                         </select>
 
@@ -47,8 +47,8 @@
                         <label for="priority" th:text="#{addIssue.priority}"></label>
                         <select class="form-control" name="priority" id="priority">
                             <option th:value="${null}" th:text="#{priority.placeholder}"></option>
-                            <option th:each="priority : ${T(com.bugtracker.enums.Priority).values()}"
-                                    th:value="${priority}" th:text="${priority}">Priority
+                            <option th:each="priority : ${priorities}"
+                                    th:value="${priority}" th:text="${#messages.msg('priority.' + priority)}">Priority
                             </option>
                         </select>
                     </div>
@@ -56,8 +56,8 @@
                         <label for="status" th:text="#{addIssue.status}"></label>
                         <select class="form-control" name="status" id="status">
                             <option th:value="${null}" th:text="#{status.placeholder}"></option>
-                            <option th:each="status : ${T(com.bugtracker.enums.Status).values()}"
-                                    th:value="${status}" th:text="${status}">Status
+                            <option th:each="status : ${statuses}"
+                                    th:value="${status}" th:text="${#messages.msg('status.' + status)}">Status
                             </option>
                         </select>
                     </div>

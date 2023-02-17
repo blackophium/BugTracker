@@ -1,102 +1,137 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect"
->
+      xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
 <head>
     <meta charset="UTF-8">
-    <title>Add issue</title>
+    <title>Issues</title>
+
+
 </head>
 <body>
+<div class="container my-2">
+    <div layout:fragment="content">
 
-<div layout:fragment="content">
-    <div class="container my-5">
-        <h2 class="mb-5" th:text="#{addIssue.title}">New Issue</h2>
-        <form action="#" th:action="@{/issues/save}" th:object="${issue}" method="post">
-            <div class="row">
-                <div class="col-md-9 col-sm-12">
-                    <div class="form-group col-mb-3">
-                        <label for="name" class="col-form-label" th:text="#{addIssue.name}">Subject</label>
-                        <input type="text" th:field="*{name}" class="form-control" id="name"
-                               placeholder="Subject" th:placeholder="#{addIssue.name}">
-                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                              class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-mb-3">
-                        <label for="description" class="col-form-label"
-                               th:text="#{addIssue.description}">Description</label>
-                        <textarea type="text" rows="8" th:field="*{description}" class="form-control" id="description"
-                                  placeholder="Description" th:placeholder="#{addIssue.description}"></textarea>
-                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                              class="text-danger"></span>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="md-6 " style="text-align:center" th:text="#{issues.listTitle}">Issues</h2>
+                <div th:switch="${issues}" class="container my-5">
+                    <p class="mb-4">
+                        <a href="/issues/create" class="btn btn-primary"><i
+                                class="fas fa-user-plus ml-2" th:text="#{addIssue.add}"> Add Issue</i></a>
+                    </p>
+
+                    <form th:action="@{/issues}"
+                          th:object="${filter}">
+                        <div class="col-auto mb-3">
+                            <input th:field="*{name}"
+                                   class="form-control"
+                                   th:placeholder="#{name.issues.placeholder}"
+                            />
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-auto">
+                                <select th:field="*{project}"
+                                        class="form-control"
+                                        onchange="this.form.submit()">
+                                    <option th:value="${null}"
+                                            th:text="#{project.issues.placeholder}">
+                                    </option>
+                                    <option th:each="project : ${projects}"
+                                            th:value="${project.id}"
+                                            th:text="${project.name}"></option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select th:field="*{assignee}"
+                                        class="form-control"
+                                        onchange="this.form.submit()">
+                                    <option th:value="${null}"
+                                            th:text="#{assignee.placeholder}"></option>
+                                    <option th:each="person : ${assignedPerson}"
+                                            th:value="${person.id}"
+                                            th:text="${person.firstName + ' ' + person.lastName}"></option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select th:field="*{type}"
+                                        class="form-control"
+                                        onchange="this.form.submit()">
+                                    <option th:value="${null}"
+                                            th:text="#{type.placeholder}"></option>
+                                    <option th:each="type : ${types}"
+                                            th:value="${type}"
+                                            th:text="${#messages.msg('type.' + type)}"></option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select th:field="*{status}"
+                                        class="form-control"
+                                        onchange="this.form.submit()">
+                                    <option th:value="${null}"
+                                            th:text="#{status.placeholder}"></option>
+                                    <option th:each="status : ${statuses}"
+                                            th:value="${status}"
+                                            th:text="${#messages.msg('status.' + status)}"></option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select th:field="*{priority}"
+                                        class="form-control"
+                                        onchange="this.form.submit()">
+                                    <option th:value="${null}"
+                                            th:text="#{priority.placeholder}"></option>
+                                    <option th:each="priority : ${priorities}"
+                                            th:value="${priority}"
+                                            th:text="${#messages.msg('priority.' + priority)}"></option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary"
+                                        type="submit"
+                                        th:text="#{button.search}"></button>
+                                <a th:href="@{/issues}"
+                                   th:text="#{button.clear}"
+                                   class="btn btn-secondary"></a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="col-md-12">
+                        <h2 th:case="null">No issues yet!</h2> <!-- To nie działa -->
+                        <div th:case="*">
+                            <table class="table table-striped table-responsive-md">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{issues.id}"></th>
+                                    <th th:text="#{issues.title}"></th>
+                                    <!--                                    <th th:text="#{issues.project}"></th>-->
+                                    <th th:text="#{issues.assignee}"></th>
+                                    <th th:text="#{issues.type}"></th>
+                                    <th th:text="#{issues.status}"></th>
+                                    <th th:text="#{issues.priority}"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="issue : ${issues}">
+                                    <td th:text="${issue.id}"></td>
+                                    <td th:text="${issue.name}"></td>
+<!--                                <td th:text="${issue.project.name}"></td>-->
+                                    <td th:if="${issue.assignee != null}"
+                                        th:text="${issue.assignee.firstName + ' ' + issue.assignee.lastName}"></td>
+                                    <td th:text="#{${'type.' + issue.type}}"></td>
+                                    <td th:text="#{${'status.' + issue.status}}"></td>
+                                    <td th:text="#{${'priority.' + issue.priority}}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
-
-                <div class="col-md-3 col-sm-12">
-                    <div class="form-group col-mb-3">
-                        <label for="type" th:text="#{addIssue.type}"></label>
-                        <select class="form-control" name="type" id="type">
-                            <option th:value="${null}" th:text="#{type.placeholder}"></option>
-                            <option th:each="type : ${T(com.bugtracker.enums.Type).values()}"
-                                    th:value="${type}" th:text="${type}">Type
-                            </option>
-                        </select>
-
-                    </div>
-                    <div class="form-group col-mb-3">
-                        <label for="priority" th:text="#{addIssue.priority}"></label>
-                        <select class="form-control" name="priority" id="priority">
-                            <option th:value="${null}" th:text="#{priority.placeholder}"></option>
-                            <option th:each="priority : ${T(com.bugtracker.enums.Priority).values()}"
-                                    th:value="${priority}" th:text="${priority}">Priority
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-mb-3">
-                        <label for="status" th:text="#{addIssue.status}"></label>
-                        <select class="form-control" name="status" id="status">
-                            <option th:value="${null}" th:text="#{status.placeholder}"></option>
-                            <option th:each="status : ${T(com.bugtracker.enums.Status).values()}"
-                                    th:value="${status}" th:text="${status}">Status
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-mb-3">
-                        <label for="assignee" th:text="#{addIssue.assignee}"></label>
-                        <select class="form-control" name="assignee" id="assignee">
-                            <option th:value="${null}" th:text="#{person.placeholder}"></option>
-                            <option th:each="person : ${persons}"
-                                    th:value="${person.id}"
-                                    th:text="${person.getFirstName() + ' ' + person.getLastName()}">Assignee
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group col-mb-3">
-                        <label for="project" th:text="#{addIssue.project}"></label>
-                        <select class="form-control" name="project" id="project">
-                            <option th:value="${null}" th:text="#{project.placeholder}"></option>
-                            <option th:each="project : ${projects}"
-                                    th:value="${project.id}"
-                                    th:text="${project.getName()}">Project
-                            </option>
-                        </select>
-                    </div>
-
-
-                </div>
             </div>
-            <div class="inner pull-right">
-                <button type="submit"
-                        class="btn btn-primary"
-                        th:text="#{button.save}"></button>
-                <a class="btn btn-secondary"
-                   th:href="@{/issues}"
-                   th:text="#{button.cancel}"></a>
-            </div>
-        </form>
-
+        </div>
     </div>
-</div>
 </div>
 </body>
 </html>
