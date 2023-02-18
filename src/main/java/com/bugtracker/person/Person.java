@@ -77,8 +77,8 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     Set<Authority> authorities;
 
-    @OneToMany(mappedBy = "creator")
-    Set<Project> createdProjects;
+    //@OneToMany(mappedBy = "creator")
+    //Set<Project> createdProjects;
     @OneToMany(mappedBy = "issue")
     List<Comment> comments;
 

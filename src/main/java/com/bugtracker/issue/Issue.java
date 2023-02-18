@@ -44,9 +44,9 @@ public class Issue {
     private String description;
     //    @Column(unique = true, length = 20)
     //    private String code; //issue number? short name? relacja?
-    //    @ManyToOne
-    //    @JoinColumn(name = "project_id", nullable = false)
-    //    private Project project;
+        @ManyToOne
+        @JoinColumn(name = "project_id", nullable = false)
+        private Project project;
     //    @ManyToOne     //trzeba wyciagnać info kto jest zalogowany
     //    @JoinColumn(name = "creator_id", nullable = false)
     //    private Person creator;

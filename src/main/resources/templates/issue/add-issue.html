@@ -11,8 +11,10 @@
 
 <div layout:fragment="content">
     <div class="container my-5">
-        <h2 class="mb-5" th:text="#{addIssue.title}">New Issue</h2>
+        <h2 class="mb-5" th:if="${issue.id == null}" th:text="#{addIssue.title}">New Issue</h2>
+        <h2 class="mb-5" th:if="${issue.id != null}" th:text="#{issue.edit.title}">Update Issue</h2>
         <form action="#" th:action="@{/issues/save}" th:object="${issue}" method="post">
+            <input type="hidden" th:field="*{id}"/>
             <div class="row">
                 <div class="col-md-9 col-sm-12">
                     <div class="form-group col-mb-3">
@@ -35,7 +37,7 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="form-group col-mb-3">
                         <label for="type" th:text="#{addIssue.type}"></label>
-                        <select class="form-control" name="type" id="type">
+                        <select class="form-control" name="type" id="type" th:field="*{type}">
                             <option th:value="${null}" th:text="#{type.placeholder}"></option>
                             <option th:each="type : ${types}"
                                     th:value="${type}" th:text="${#messages.msg('type.' + type)}">Type
@@ -45,7 +47,7 @@
                     </div>
                     <div class="form-group col-mb-3">
                         <label for="priority" th:text="#{addIssue.priority}"></label>
-                        <select class="form-control" name="priority" id="priority">
+                        <select class="form-control" name="priority" id="priority" th:field="*{priority}">
                             <option th:value="${null}" th:text="#{priority.placeholder}"></option>
                             <option th:each="priority : ${priorities}"
                                     th:value="${priority}" th:text="${#messages.msg('priority.' + priority)}">Priority
@@ -54,7 +56,7 @@
                     </div>
                     <div class="form-group col-mb-3">
                         <label for="status" th:text="#{addIssue.status}"></label>
-                        <select class="form-control" name="status" id="status">
+                        <select class="form-control" name="status" id="status" th:field="*{status}">
                             <option th:value="${null}" th:text="#{status.placeholder}"></option>
                             <option th:each="status : ${statuses}"
                                     th:value="${status}" th:text="${#messages.msg('status.' + status)}">Status
@@ -63,7 +65,7 @@
                     </div>
                     <div class="form-group col-mb-3">
                         <label for="assignee" th:text="#{addIssue.assignee}"></label>
-                        <select class="form-control" name="assignee" id="assignee">
+                        <select class="form-control" name="assignee" id="assignee" th:field="*{assignee}">
                             <option th:value="${null}" th:text="#{person.placeholder}"></option>
                             <option th:each="person : ${persons}"
                                     th:value="${person.id}"
@@ -73,7 +75,7 @@
                     </div>
                     <div class="form-group col-mb-3">
                         <label for="project" th:text="#{addIssue.project}"></label>
-                        <select class="form-control" name="project" id="project">
+                        <select class="form-control" name="project" id="project" th:field="*{project}">
                             <option th:value="${null}" th:text="#{project.placeholder}"></option>
                             <option th:each="project : ${projects}"
                                     th:value="${project.id}"
@@ -96,7 +98,6 @@
         </form>
 
     </div>
-</div>
 </div>
 </body>
 </html>
