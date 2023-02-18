@@ -114,9 +114,15 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="issue : ${issues}">
-                                    <td th:text="${issue.id}"></td>
-                                    <td th:text="${issue.name}"></td>
-<!--                                <td th:text="${issue.project.name}"></td>-->
+                                    <td>
+                                        <a th:href="@{issues/{id}(id=${issue.id})}"
+                                           th:text="${issue.id}"></a>
+                                    </td>
+                                    <td>
+                                        <a th:text="${issue.name}"
+                                           th:href="@{issues/{id}(id=${issue.id})}"></a>
+                                    </td>
+                                    <!--                                    <td th:text="${issue.project.name}"></td>-->
                                     <td th:if="${issue.assignee != null}"
                                         th:text="${issue.assignee.firstName + ' ' + issue.assignee.lastName}"></td>
                                     <td th:text="#{${'type.' + issue.type}}"></td>
@@ -128,6 +134,7 @@
                         </div>
 
                     </div>
+                    <!--                </div>-->
                 </div>
             </div>
         </div>
