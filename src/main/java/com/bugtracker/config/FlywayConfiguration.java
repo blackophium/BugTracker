@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-public class FlywayConfig {
+public class FlywayConfiguration {
 
     @Autowired
-    public FlywayConfig(DataSource dataSource){
+    public FlywayConfiguration(DataSource dataSource){
         Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).load().migrate();
     }
 }
