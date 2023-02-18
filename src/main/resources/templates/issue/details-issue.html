@@ -96,19 +96,17 @@
                     <!--                        </select>-->
                     <!--                    </div>-->
 
-
                 </div>
             </div>
             <div class="inner pull-right">
-                <!--                <button th:href="@{/issues/update/{id}(id=${issue.id})}"-->
-                <!--                        class="btn btn-primary"-->
-                <!--                        th:text="#{button.save}"></button>-->
+                <a th:href="@{/issues/delete/{id}(id=${issue.id})}" class="btn btn-danger"
+                   th:text="#{button.delete}"></a>
                 <a class="btn btn-secondary"
+                   style="float: right"
                    th:href="@{/issues}"
                    th:text="#{button.back}"></a>
             </div>
         </form>
-
     </div>
 </div>
 </div>

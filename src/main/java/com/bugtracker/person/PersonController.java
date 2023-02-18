@@ -85,10 +85,10 @@ public class PersonController {
     @Secured("ROLE_MANAGE_USER")
     public String deleteUser(@PathVariable("id") Long id, Model model) {
 
-        Person user = this.personRepository.findById(id)
+        Person user = personRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + id));
 
-        this.personRepository.delete(user);
+        personRepository.delete(user);
         model.addAttribute("users", personRepository.findAll());
         return "redirect:/users";
 

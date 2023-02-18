@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Status;
 import com.bugtracker.enums.Type;
+import com.bugtracker.person.Person;
 import com.bugtracker.person.PersonRepository;
 import com.bugtracker.project.ProjectRepository;
 
@@ -101,5 +102,17 @@ public class IssueController {
         model.addAttribute("statuses", Status.values());
         model.addAttribute("issue", issue);
         return "issue/details-issue";
+    }
+
+    @GetMapping("/delete/{id}")
+    @Secured("ROLE_MANAGE_USER")
+    public String deleteIssue(@PathVariable("id") Long id, Model model) {
+        Issue issue = issueRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid issue id : " + id));
+
+        issueRepository.delete(issue);
+        model.addAttribute("issues", issueRepository.findAll());
+        return "redirect:/issues";
+
     }
 }
