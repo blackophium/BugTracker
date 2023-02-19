@@ -34,7 +34,6 @@ public class IssueController {
     }
 
     @GetMapping
-//    @Secured("ROLE_USERS_TAB")
     public String users(@ModelAttribute IssueFilter issueFilter, Model model) {
         model.addAttribute("issues", issueRepository.findAll(issueFilter.buildQuery()));
         model.addAttribute("assignedPerson", personRepository.findAll());
@@ -65,7 +64,6 @@ public class IssueController {
     }
 
     @GetMapping("edit/{id}")
-    @Secured("ROLE_MANAGE_USER")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         model.addAttribute("issue", issue);
@@ -91,7 +89,6 @@ public class IssueController {
     }
 
     @GetMapping("/{id}")
-    @Secured("ROLE_USERS_TAB")
     public String showIssueDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         model.addAttribute("issues", issueRepository.findAll());
@@ -105,7 +102,6 @@ public class IssueController {
     }
 
     @GetMapping("/delete/{id}")
-    @Secured("ROLE_MANAGE_USER")
     public String deleteIssue(@PathVariable("id") Long id) {
         Issue issue = issueRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid issue id : " + id));
@@ -113,6 +109,5 @@ public class IssueController {
         issueRepository.delete(issue);
         //model.addAttribute("issues", issueRepository.findAll());
         return "redirect:/issues";
-
     }
 }

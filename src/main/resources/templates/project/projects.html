@@ -15,7 +15,7 @@
                 style="text-align:center"
                 th:text="#{projects.listTitle}">Projects</h2>
             <div th:switch="${projects}" class="container my-5">
-                <p class="mb-4">
+                <p class="mb-4" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
                     <a th:href="@{'/projects/create'}"
                        class="btn btn-primary">
                         <i class="fas fa-user-plus ml-2"
