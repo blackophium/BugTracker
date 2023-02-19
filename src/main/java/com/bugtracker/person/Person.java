@@ -46,12 +46,12 @@ public class Person {
     String repeatedPassword;
 
     @Column(nullable = false)
-    @Size(min = 5, max = 20)
+    @Size(min = 3, max = 20)
     @NotBlank
     private String firstName;
 
     @Column(nullable = false)
-    @Size(min = 5, max = 30)
+    @Size(min = 3, max = 30)
     @NotBlank
     private String lastName;
 
@@ -77,8 +77,6 @@ public class Person {
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     Set<Authority> authorities;
 
-    //@OneToMany(mappedBy = "creator")
-    //Set<Project> createdProjects;
     @OneToMany(mappedBy = "issue")
     List<Comment> comments;
 

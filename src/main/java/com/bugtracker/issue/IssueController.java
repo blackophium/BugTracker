@@ -83,8 +83,6 @@ public class IssueController {
             return "issue/add-issue";
         }
         issueRepository.save(issue);
-        //model.addAttribute("issues", issueRepository.findAll());
-        //model.addAttribute("issue", issue);
         return "redirect:/issues";
     }
 
@@ -107,7 +105,6 @@ public class IssueController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid issue id : " + id));
 
         issueRepository.delete(issue);
-        //model.addAttribute("issues", issueRepository.findAll());
         return "redirect:/issues";
     }
 }
