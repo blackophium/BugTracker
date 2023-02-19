@@ -10,6 +10,8 @@ import com.bugtracker.auth.AuthorityRepository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.security.Principal;
 
 @Service
 public class PersonService {
@@ -64,5 +66,9 @@ public class PersonService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + id));
         user.setEnabled(false);
         personRepository.save(user);
+    }
+
+    public Optional<Person> getLoggedUser(Principal principal){
+        return personRepository.findByUsername(principal.getName());
     }
 }

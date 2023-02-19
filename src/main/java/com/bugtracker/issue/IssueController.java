@@ -1,22 +1,20 @@
 package com.bugtracker.issue;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Status;
 import com.bugtracker.enums.Type;
 import com.bugtracker.person.Person;
 import com.bugtracker.person.PersonRepository;
 import com.bugtracker.project.ProjectRepository;
+import com.bugtracker.person.PersonService;
+
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/issues")
@@ -25,12 +23,14 @@ public class IssueController {
     private final IssueRepository issueRepository;
     private final PersonRepository personRepository;
     private final ProjectRepository projectRepository;
+    private final PersonService personService;
 
     @Autowired
-    public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository) {
+    public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository, PersonService personService) {
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
         this.projectRepository = projectRepository;
+        this.personService = personService;
     }
 
     @GetMapping
@@ -42,6 +42,7 @@ public class IssueController {
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("priorities", Priority.values());
+
         return "issue/issues";
     }
 
@@ -57,10 +58,15 @@ public class IssueController {
     }
 
     @PostMapping("/save")
-    ModelAndView save(@ModelAttribute Issue issue) {
-        System.out.println(issue);
+    public String save(Issue issue, BindingResult result, Principal principal) {
+        if (result.hasErrors()){
+            return "issue/add-issue";
+        }
+        Optional<Person> loggedUser = personService.getLoggedUser(principal);
+        loggedUser.ifPresent(issue::setCreator);
         issueRepository.save(issue);
-        return new ModelAndView("redirect:/issues");
+
+        return "redirect:/issues";
     }
 
     @GetMapping("edit/{id}")
@@ -76,15 +82,13 @@ public class IssueController {
     }
 
     @PostMapping("update/{id}")
-    public String updateIssue(@PathVariable("id") long id, BindingResult result, Model model) {
+    public String updateIssue(@PathVariable("id") Long id, BindingResult result) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         if(result.hasErrors()) {
             issue.setId(id);
             return "issue/add-issue";
         }
         issueRepository.save(issue);
-        //model.addAttribute("issues", issueRepository.findAll());
-        //model.addAttribute("issue", issue);
         return "redirect:/issues";
     }
 
@@ -98,6 +102,8 @@ public class IssueController {
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("issue", issue);
+        model.addAttribute("creator", issue.getCreator());
+
         return "issue/details-issue";
     }
 
@@ -105,9 +111,8 @@ public class IssueController {
     public String deleteIssue(@PathVariable("id") Long id) {
         Issue issue = issueRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid issue id : " + id));
-
         issueRepository.delete(issue);
-        //model.addAttribute("issues", issueRepository.findAll());
         return "redirect:/issues";
     }
+
 }

@@ -19,10 +19,8 @@ public class ValidPasswordsValidator implements ConstraintValidator<ValidPasswor
                 ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
                         .addPropertyNode("password")
                         .addConstraintViolation();
-
                 return false;
             }
-
             return true;
         }
 
@@ -30,14 +28,12 @@ public class ValidPasswordsValidator implements ConstraintValidator<ValidPasswor
 
         if (passwordsAreValid) {
             return true;
-        } else {
-
+            } else {
             ctx.disableDefaultConstraintViolation();
             ctx.buildConstraintViolationWithTemplate(ctx.getDefaultConstraintMessageTemplate())
                     .addPropertyNode("repeatedPassword")
                     .addConstraintViolation();
-
             return false;
-        }
+            }
     }
 }

@@ -2,12 +2,12 @@
 <html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
+
 <head>
     <meta charset="UTF-8">
     <title>Issues</title>
-
-
 </head>
+
 <body>
 <div class="container my-2">
     <div layout:fragment="content">
@@ -25,8 +25,7 @@
                         <div class="col-auto mb-3">
                             <input th:field="*{name}"
                                    class="form-control"
-                                   th:placeholder="#{name.issues.placeholder}"
-                            />
+                                   th:placeholder="#{name.issues.placeholder}"/>
                         </div>
                         <div class="row mb-3">
                             <div class="col-auto">

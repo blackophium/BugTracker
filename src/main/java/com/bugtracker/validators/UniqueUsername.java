@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UsernameUniquenessValidator.class)
+
 public @interface UniqueUsername {
     String message() default "{username.unique.error}";
 
