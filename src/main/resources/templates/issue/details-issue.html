@@ -5,7 +5,7 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Details issue</title>
+    <title>Issue details</title>
 </head>
 <body>
 
@@ -85,17 +85,16 @@
                             </option>
                         </select>
                     </div>
-                    <!--                    <div class="form-group col-mb-3">-->
-                    <!--                        <label for="project" th:text="#{addIssue.project}"></label>-->
-                    <!--                        <select class="form-control" th:field="*{project}" name="project" id="project" disabled>-->
-                    <!--                            <option th:value="${null}" th:text="#{project.placeholder}"></option>-->
-                    <!--                            <option th:each="project : ${projects}"-->
-                    <!--                                    th:value="${project.id}"-->
-                    <!--                                    th:text="${project.getName()}">Project-->
-                    <!--                            </option>-->
-                    <!--                        </select>-->
-                    <!--                    </div>-->
-
+                    <div class="form-group col-mb-3">
+                        <label for="project" th:text="#{addIssue.project}"></label>
+                        <select class="form-control" th:field="*{project}" name="project" id="project" disabled>
+                            <option th:value="${null}" th:text="#{project.placeholder}"></option>
+                            <option th:each="project : ${projects}"
+                                    th:value="${project.id}"
+                                    th:text="${project.getName()}">Project
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="inner pull-right">

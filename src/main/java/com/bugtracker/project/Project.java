@@ -21,15 +21,15 @@ public class Project {
     private Long id;
     @Column(nullable = false, unique = true)
     private String name;
-    //@OneToMany(mappedBy = "project")
-    //private Set<Issue> issues;
-    private Boolean enabled;
+    @OneToMany(mappedBy = "project")
+    private Set<Issue> issues;
+    private Boolean enabled = true;
     @Column(nullable = false)
     private final Date dateCreated = new Date();
     private String code; // short name? relacja?
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "creator_id", nullable = false)
-    private Person creator;
+    //@ManyToOne
+    //@JoinColumn(name = "creator_id", nullable = false)
+    //private Person creator;
 
 }
