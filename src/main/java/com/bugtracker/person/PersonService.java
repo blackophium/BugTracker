@@ -58,4 +58,11 @@ public class PersonService {
         person.setPassword(hashedPassword);
         personRepository.save(person);
     }
+
+    void softDeleteUser(Long id){
+        Person user = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + id));
+        user.setEnabled(false);
+        personRepository.save(user);
+    }
 }
