@@ -61,13 +61,6 @@
                         </div>
                     </div>
                     <div>
-                        <label for="enabled" class="col-form-label" th:text="#{addUser.enabled}">Enabled</label>
-                        <select class="form-control" id="enabled" name="enabled">
-                            <option th:value="${true}" th:text="#{addUser.enabled.true}">Enabled</option>
-                            <option th:value="${false}" th:text="#{addUser.enabled.false}">Disabled</option>
-                        </select>
-                    </div>
-                    <div>
                         <!--                        <label for="role" class="col-form-label" th:text="#{addUser.role}">Role</label>-->
                         <select class="form-control" id="role" name="role">
                             <option th:each="roleOpt : ${T(com.bugtracker.enums.Role).values()}"

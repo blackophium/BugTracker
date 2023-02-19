@@ -24,7 +24,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/issues" th:text="#{nav.issues}">Ticket</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_USERS_TAB'')')}">
                     <a class="nav-link" href="/users" th:text="#{nav.users}">Users</a>
                 </li>
                 <form id="logout" class="form-inline mt-2 mt-md-0" th:action="@{/logout}" method="post">
