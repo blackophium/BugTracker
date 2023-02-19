@@ -84,14 +84,8 @@ public class PersonController {
     @GetMapping("delete/{id}")
     @Secured("ROLE_MANAGE_USER")
     public String deleteUser(@PathVariable("id") Long id) {
-
-        Person user = personRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + id));
-
-        personRepository.delete(user);
-        //model.addAttribute("users", personRepository.findAll());
+        personService.softDeleteUser(id);
         return "redirect:/users";
-
     }
 
     @GetMapping("edit/{id}")
