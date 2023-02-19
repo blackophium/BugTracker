@@ -6,10 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.bugtracker.enums.Priority;
-import com.bugtracker.enums.Status;
-import com.bugtracker.enums.Type;
-import com.bugtracker.issue.Issue;
+import com.bugtracker.person.*;
+
+import java.security.Principal;
 
 
 @Controller
@@ -17,15 +16,21 @@ import com.bugtracker.issue.Issue;
 public class ProjectController {
 
     private final ProjectRepository projectRepository;
+    private final PersonService personService;
+    private final PersonRepository personRepository;
 
     @Autowired
-    public ProjectController(ProjectRepository projectRepository) {
+    public ProjectController(ProjectRepository projectRepository, PersonService personService, PersonRepository personRepository) {
         this.projectRepository = projectRepository;
+        this.personService = personService;
+        this.personRepository = personRepository;
     }
 
     @GetMapping()
-    public String projects(Model model){
-        model.addAttribute("projects", projectRepository.findAll());
+    public String projects(@ModelAttribute ProjectFilter projectFilter, Model model){
+        model.addAttribute("projects", projectRepository.findAll(projectFilter.buildQuery()));
+        model.addAttribute("creator", personRepository.findAll());
+        model.addAttribute("filter", projectFilter);
         return "project/projects";
     }
 
@@ -37,7 +42,7 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    public String save(Project project, BindingResult result){
+    public String save(Project project, BindingResult result, Principal principal){
         if (result.hasErrors()){
             return "project/add-project";
         }
@@ -65,8 +70,9 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public String showIssueDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
+    public String showProjectDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
         Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
+        model.addAttribute("creator", project.getCreator());
         model.addAttribute("project", project);
         return "project/details-project";
     }

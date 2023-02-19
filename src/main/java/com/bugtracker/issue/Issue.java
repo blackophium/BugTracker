@@ -48,6 +48,10 @@ public class Issue {
     private Project project;
 
     @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Person creator;
+
+    @ManyToOne
     @JoinColumn(name = "assignee_id", nullable = false)
     private Person assignee;
 
