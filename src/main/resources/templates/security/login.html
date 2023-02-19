@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/html_head :: head">
     <meta charset="UTF-8">
     <title th:text="#{login.label}"/>
-
 </head>
+
 <body>
 <div class="container">
     <form th:action="@{/login}" method="post" class="login-form">
@@ -35,7 +36,5 @@
     </form>
 </div>
 </body>
-<div style="text-align:center" th:insert="fragments/footer :: footer">&copy; 2014 The Static
-    Templates
-</div>
+<div style="text-align:center" th:insert="fragments/footer :: footer"></div>
 </html>
