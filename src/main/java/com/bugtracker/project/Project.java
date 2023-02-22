@@ -29,7 +29,7 @@ public class Project {
 
     @Column(nullable = false)
     private final Date dateCreated = new Date();
-    private String code; // short name? relacja?
+    private String code;
     private String description;
 
     @ManyToOne

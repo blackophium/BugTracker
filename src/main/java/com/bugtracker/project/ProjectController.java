@@ -7,8 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.bugtracker.person.*;
+import com.bugtracker.issue.Issue;
+import com.bugtracker.issue.IssueRepository;
 
 import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -18,12 +21,14 @@ public class ProjectController {
     private final ProjectRepository projectRepository;
     private final PersonService personService;
     private final PersonRepository personRepository;
+    private final IssueRepository issueRepository;
 
     @Autowired
-    public ProjectController(ProjectRepository projectRepository, PersonService personService, PersonRepository personRepository) {
+    public ProjectController(ProjectRepository projectRepository, PersonService personService, PersonRepository personRepository, IssueRepository issueRepository) {
         this.projectRepository = projectRepository;
         this.personService = personService;
         this.personRepository = personRepository;
+        this.issueRepository = issueRepository;
     }
 
     @GetMapping()
@@ -46,6 +51,8 @@ public class ProjectController {
         if (result.hasErrors()){
             return "project/add-project";
         }
+        Optional<Person> loggedUser = personService.getLoggedUser(principal);
+        loggedUser.ifPresent(project::setCreator);
         projectRepository.save(project);
         return "redirect:/projects";
     }

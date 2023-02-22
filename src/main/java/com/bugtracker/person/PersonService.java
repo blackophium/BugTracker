@@ -55,8 +55,28 @@ public class PersonService {
         personRepository.save(person);
     }
 
+    void savePerson(PersonForm personForm) {
+        Person person = personRepository.findById(personForm.id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + personForm.id));
+
+        person.setUsername(personForm.getUsername());
+        person.setFirstName(personForm.getFirstName());
+        person.setLastName(personForm.getLastName());
+        person.setEmail(personForm.getEmail());
+        person.setAuthorities(personForm.getAuthorities());
+        personRepository.save(person);
+    }
+
     void savePerson(Person person){
         String hashedPassword = bCryptPasswordEncoder.encode(person.getPassword());
+        person.setPassword(hashedPassword);
+        personRepository.save(person);
+    }
+
+    void savePassword(PasswordForm passwordForm){
+        Person person = personRepository.findById(passwordForm.id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + passwordForm.id));
+        String hashedPassword = bCryptPasswordEncoder.encode(passwordForm.getPassword());
         person.setPassword(hashedPassword);
         personRepository.save(person);
     }

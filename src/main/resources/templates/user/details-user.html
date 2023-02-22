@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{/layouts/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
+<head>
+    <meta charset="UTF-8">
+    <title>Details user</title>
+</head>
+<body>
+<section class="container">
+    <div layout:fragment="content">
+        <h2 class="mb-5" th:text="#{detailsUser.title}">Details User</h2>
+        <form action="#" th:action="@{/users/update/{id}(id=${personForm.id})}" th:object="${personForm}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <div class="row-cols-1">
+                <div class="mb-3">
+                    <div>
+                        <label for="username" class="col-form-label" th:text="#{addUser.username}">Username</label>
+                        <input type="text" th:field="*{username}" class="form-control" id="username"
+                               placeholder="Username" th:placeholder="#{addUser.username}">
+                        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                              class="text-danger"></span>
+                    </div>
+                    <div>
+                        <div>
+                            <label for="firstname" class="col-form-label" th:text="#{addUser.firstName}">First
+                                name</label>
+                            <input type="text" th:field="*{firstName}" class="form-control" id="firstname"
+                                   placeholder="First name" th:placeholder="#{addUser.firstName}">
+                            <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                  class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label for="lastname" class="col-form-label" th:text="#{addUser.lastName}">Last name</label>
+                            <input type="text" th:field="*{lastName}" class="form-control" id="lastname"
+                                   placeholder="Last name" th:placeholder="#{addUser.lastName}">
+                            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                  class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label for="email" class="col-form-label" th:text="#{addUser.email}">Email</label>
+                            <input type="text" th:field="*{email}" class="form-control" id="email"
+                                   placeholder="Email" th:placeholder="#{addUser.email}">
+                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                  class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="enabled" class="col-form-label" th:text="#{addUser.enabled}">Enabled</label>
+                        <select class="form-control" id="enabled" name="enabled">
+                            <option th:value="${true}" th:text="#{addUser.enabled.true}">Enabled</option>
+                            <option th:value="${false}" th:text="#{addUser.enabled.false}">Disabled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="password" class="col-form-label" th:text="#{addUser.password}">Password</label>
+                        <div>
+                            <a class="btn btn-secondary"
+                               id="password"
+                               th:href="@{/users/edit/password/{id}(id=${personForm.id})}"
+                               th:text="#{button.changePassword}"></a>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div>
+                            <h5 class="form-label"
+                                th:text="#{addUser.authorities}"></h5>
+                        </div>
+                        <div th:each="authority : ${authorities}">
+                            <input name="authorities"
+                                   type="checkbox"
+                                   th:value="${authority.id}"
+                                   th:field="*{authorities}"/>
+                            <label th:text="#{${'authority.' + authority.authority}}"
+                                   th:for="${#ids.prev('authorities')}"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner pull-right">
+                    <button type="submit"
+                            class="btn btn-primary"
+                            th:text="#{button.save}"></button>
+                    <a class="btn btn-secondary"
+                       th:href="@{/users}"
+                       th:text="#{button.cancel}"></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
