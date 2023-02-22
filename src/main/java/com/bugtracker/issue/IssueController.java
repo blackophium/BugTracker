@@ -12,6 +12,7 @@ import com.bugtracker.person.Person;
 import com.bugtracker.person.PersonRepository;
 import com.bugtracker.project.ProjectRepository;
 import com.bugtracker.person.PersonService;
+import com.bugtracker.mail.*;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -24,13 +25,17 @@ public class IssueController {
     private final PersonRepository personRepository;
     private final ProjectRepository projectRepository;
     private final PersonService personService;
+    private final MailService mailService;
+    private final IssueService issueService;
 
     @Autowired
-    public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository, PersonService personService) {
+    public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository, PersonService personService, MailService mailService, IssueService issueService) {
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
         this.projectRepository = projectRepository;
         this.personService = personService;
+        this.mailService = mailService;
+        this.issueService = issueService;
     }
 
     @GetMapping
@@ -112,6 +117,11 @@ public class IssueController {
         Issue issue = issueRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid issue id : " + id));
         issueRepository.delete(issue);
+        String email = issue.getCreator().getEmail();
+        if (!email.isEmpty()){
+            String subject = "Zamknięto Twoje zadanie";
+            mailService.send(new Mail(email, subject, issueService.initMailContent(issue)));
+        }
         return "redirect:/issues";
     }
 
