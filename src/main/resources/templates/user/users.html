@@ -39,7 +39,7 @@
                                 <td th:text="${user.firstName}"></td>
                                 <td th:text="${user.username}"></td>
                                 <td th:text="${user.role}"></td>
-                                <td th:text="${user.authorities}"></td>
+                                <td th:text="${user.email}"></td>
                                 <td th:text="${#dates.format(user.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
                                 <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary"
                                                                                                               th:text="#{addUser.edit}"></a></td>

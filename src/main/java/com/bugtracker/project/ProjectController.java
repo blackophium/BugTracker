@@ -14,7 +14,7 @@ import com.bugtracker.utils.MarkdownUtils;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/projects")
@@ -52,7 +52,7 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    public String save(Project project, BindingResult result, Principal principal, Model model){
+    public String save(@Valid Project project, BindingResult result, Principal principal, Model model){
         if (result.hasErrors()){
             return "project/add-project";
         }
@@ -72,8 +72,8 @@ public class ProjectController {
     }
 
     @PostMapping("update/{id}")
-    public String updateProject(@PathVariable("id") Long id, BindingResult result){
-        Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
+    public String updateProject(@PathVariable("id") Long id, BindingResult result, @Valid Project project){
+        // Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
         if (result.hasErrors()){
             project.setId(id);
             return "project/add-project";

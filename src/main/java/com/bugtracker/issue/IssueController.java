@@ -56,7 +56,7 @@ public class IssueController {
 
     @GetMapping("/create")
     public String showIssueForm(Model model) {
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personRepository.findAllByEnabled(true));
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
@@ -81,7 +81,7 @@ public class IssueController {
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         model.addAttribute("issue", issue);
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personRepository.findAllByEnabled(true));
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
@@ -104,7 +104,7 @@ public class IssueController {
     public String showIssueDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         model.addAttribute("issues", issueRepository.findAll());
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personRepository.findAllByEnabled(true));
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("types", Type.values());

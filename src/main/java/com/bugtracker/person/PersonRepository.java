@@ -14,6 +14,9 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     Optional<Person> findByUsername(String username);
     Optional<Person> findByUsernameAndEnabled(String username, Boolean enabled);
 
+    Iterable<Person> findAllByIdAndEnabled(Long id, Boolean enabled);
+    Iterable<Person> findAllByEnabled(Boolean enabled);
+
     @Query("select p from Person p where p.dateCreated >= :date order by p.dateCreated desc")
     Iterable<Person> findEnabledUsersCreatedAfter(@Param("date") Date date);
 }

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.bugtracker.issue.Issue;
 import com.bugtracker.person.Person;
+import com.bugtracker.validators.UniqueProjectName;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@UniqueProjectName
 public class Project {
 
     @Id
