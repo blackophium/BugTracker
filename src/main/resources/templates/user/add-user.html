@@ -23,7 +23,7 @@
                     </div>
                     <div>
                         <label for="password" class="col-form-label" th:text="#{addUser.password}">Password</label>
-                        <input type="text" th:field="*{password}" class="form-control" id="password"
+                        <input type="password" th:field="*{password}" class="form-control" id="password"
                                placeholder="Password" th:placeholder="#{addUser.password}">
                         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
                               class="text-danger"></span>
@@ -31,7 +31,7 @@
                     <div>
                         <label for="repeatedPassword" class="col-form-label" th:text="#{addUser.passwordRepeat}">Repeat
                             password</label>
-                        <input type="text" th:field="*{repeatedPassword}" class="form-control" id="repeatedPassword"
+                        <input type="password" th:field="*{repeatedPassword}" class="form-control" id="repeatedPassword"
                                placeholder="Repeat password" th:placeholder="#{addUser.passwordRepeat}">
                         <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"
                               class="text-danger"></span>

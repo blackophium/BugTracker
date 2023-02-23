@@ -13,6 +13,7 @@ import com.bugtracker.person.PersonRepository;
 import com.bugtracker.project.ProjectRepository;
 import com.bugtracker.person.PersonService;
 import com.bugtracker.mail.*;
+import com.bugtracker.utils.MarkdownUtils;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -27,15 +28,18 @@ public class IssueController {
     private final PersonService personService;
     private final MailService mailService;
     private final IssueService issueService;
+    private final MarkdownUtils markdownUtils;
 
     @Autowired
-    public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository, PersonService personService, MailService mailService, IssueService issueService) {
+    public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository,
+                           PersonService personService, MailService mailService, IssueService issueService, MarkdownUtils markdownUtils) {
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
         this.projectRepository = projectRepository;
         this.personService = personService;
         this.mailService = mailService;
         this.issueService = issueService;
+        this.markdownUtils = markdownUtils;
     }
 
     @GetMapping
@@ -47,13 +51,12 @@ public class IssueController {
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("priorities", Priority.values());
-
         return "issue/issues";
     }
 
     @GetMapping("/create")
     public String showIssueForm(Model model) {
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personRepository.findAllByEnabled(true));
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
@@ -63,14 +66,14 @@ public class IssueController {
     }
 
     @PostMapping("/save")
-    public String save(Issue issue, BindingResult result, Principal principal) {
+    public String save(Issue issue, BindingResult result, Principal principal, Model model) {
         if (result.hasErrors()){
             return "issue/add-issue";
         }
         Optional<Person> loggedUser = personService.getLoggedUser(principal);
         loggedUser.ifPresent(issue::setCreator);
+        issue.setHtml(markdownUtils.markdownToHTML(issue.getDescription()));
         issueRepository.save(issue);
-
         return "redirect:/issues";
     }
 
@@ -78,7 +81,7 @@ public class IssueController {
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         model.addAttribute("issue", issue);
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personRepository.findAllByEnabled(true));
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
@@ -101,7 +104,7 @@ public class IssueController {
     public String showIssueDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
         model.addAttribute("issues", issueRepository.findAll());
-        model.addAttribute("persons", personRepository.findAll());
+        model.addAttribute("persons", personRepository.findAllByEnabled(true));
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("types", Type.values());

@@ -20,28 +20,23 @@
                    th:href="@{edit/{id}(id=${issue.id})}"></a>
             </div>
         </h2>
+
         <form action="#" th:object="${issue}">
             <div class="row">
                 <div class="col-md-9 col-sm-12">
                     <div class="form-group col-mb-3">
-                        <label for="name" class="col-form-label" th:text="#{addIssue.name}">Subject</label>
-                        <input type="text" th:field="*{name}" class="form-control" id="name"
-                               placeholder="Subject" th:placeholder="#{addIssue.name}" disabled>
+                        <h2 style="font-size: xxx-large;font-family: Arial" th:text="${issue.name}" id="name" ></h2>
                         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
                               class="text-danger"></span>
                     </div>
                     <div class="form-group col-mb-3">
-                        <label for="description" class="col-form-label"
-                               th:text="#{addIssue.description}">Description</label>
-                        <textarea type="text" rows="8" th:field="*{description}" class="form-control" id="description"
-                                  placeholder="Description" th:placeholder="#{addIssue.description}"
-                                  disabled></textarea>
+                        <div class="border" id="description" th:utext="${issue.html}">Content</div>
                         <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
                               class="text-danger"></span>
                     </div>
                     <div class="form-group col-mb-3" >
                         <label for="creator" th:text="#{addIssue.creator}" style="float: left"></label>
-                        <p th:field="*{creator}" th:value="${creator.getUsername()}" th:text="${creator.getUsername()}" id="creator" >Creator</p>
+                        <p th:text="${issue.creator.getFirstName() + ' ' + issue.creator.getLastName()}" id="creator" >Creator</p>
 
                     </div>
                 </div>

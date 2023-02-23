@@ -81,6 +81,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.18</version>
         </dependency>
+        <dependency>
+            <groupId>org.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.17.1</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.bugtracker.auth.AuthorityRepository;
 
 import javax.validation.Valid;
@@ -68,23 +66,42 @@ public class PersonController {
     @Secured("ROLE_MANAGE_USERS")
     public String showUpdateForm(@PathVariable ("id") Long id, Model model) {
         Person person = personRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user id : " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student id : " + id));
 
         model.addAttribute("authorities", authorityRepository.findAll());
-        model.addAttribute("user", person);
-        return "user/update-user";
+        model.addAttribute("personForm", new PersonForm(person));
+        return "user/details-user";
     }
 
     @PostMapping("update/{id}")
-    public String updateUser(@PathVariable("id") Long id, @Valid Person user, BindingResult result, Model model) {
+    public String updateUser(@PathVariable("id") Long id, @Valid PersonForm personForm, BindingResult result, Model model) {
         if(result.hasErrors()) {
             model.addAttribute("authorities", authorityRepository.findAll());
-            user.setId(id);
-            return "user/update-user";
+//            model.addAttribute("passwordForm", new PasswordForm());
+            personForm.setId(id);
+            return "user/details-user";
         }
-
-        personRepository.save(user);
-        //model.addAttribute("users", personRepository.findAll());
+        personService.savePerson(personForm);
         return "redirect:/users";
+    }
+
+    @GetMapping("edit/password/{id}")
+    @Secured("ROLE_MANAGE_USERS")
+    public String showUpdatePasswordForm(@PathVariable ("id") Long id, Model model) {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student id : " + id));
+
+        model.addAttribute("passwordForm", new PasswordForm(person));
+        return "user/password-user";
+    }
+
+    @PostMapping("update/password/{id}")
+    public String updateUserPassword(@PathVariable("id") Long id, @Valid PasswordForm passwordForm, BindingResult result) {
+        if(result.hasErrors()) {
+            passwordForm.setId(id);
+            return "user/password-user";
+        }
+        personService.savePassword(passwordForm);
+        return "redirect:/users/edit/{id}";
     }
 }

@@ -26,8 +26,7 @@
                     <div class="col-auto mb-3">
                         <input th:field="*{name}"
                                class="form-control"
-                               th:placeholder="#{name.projects.placeholder}"
-                        />
+                               th:placeholder="#{name.projects.placeholder}"/>
                     </div>
                     <div class="row mb-3">
                         <div class="col-auto">
@@ -73,7 +72,7 @@
                                     <a th:text="${project.name}"
                                        th:href="@{projects/{id}(id=${project.id})}"></a>
                                 </td>
-                                <td th:text="${project.description}"></td>
+                                <td th:utext="${project.html}"></td>
                                 <td th:text="${project.creator.getFirstName() + ' ' + project.creator.getLastName()}"></td>
                             </tr>
                             </tbody>

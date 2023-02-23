@@ -7,12 +7,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidPasswordsValidator.class)
 
-public @interface ValidPasswords {
-    String message() default "{passwords.not.valid.error}";
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = ProjectNameUniquenessValidator.class)
+
+public @interface UniqueProjectName {
+    String message() default "{projectName.unique.error}";
 
     Class<?>[] groups() default {};
 
