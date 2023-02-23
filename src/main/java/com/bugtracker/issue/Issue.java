@@ -61,5 +61,5 @@ public class Issue {
 
     @OneToMany(mappedBy = "issue")
     private List<Comment> comments;
-
+    private String html;
 }

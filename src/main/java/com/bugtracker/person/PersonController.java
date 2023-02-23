@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import com.bugtracker.auth.AuthorityRepository;
 
 import javax.validation.Valid;
@@ -36,7 +34,7 @@ public class PersonController {
     }
 
     @GetMapping("/create")
-    @Secured("ROLE_MANAGE_USERS") //przerobić na Stringa!!!!!!!!!!!!!!!!!!!!!!!!!!!! i pousuwać niepotrzebne rzeczy
+    @Secured("ROLE_MANAGE_USERS")
     ModelAndView create() {
         ModelAndView modelAndView = new ModelAndView("user/add-user");
         modelAndView.addObject("authorities", authorityRepository.findAll());
