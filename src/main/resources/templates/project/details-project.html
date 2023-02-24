@@ -2,50 +2,51 @@
 <html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
+
 <head>
     <meta charset="UTF-8">
     <title>Project details</title>
 </head>
-<body>
 
 <div layout:fragment="content">
     <div class="container my-5">
-        <h1 class="row">
-            <div class="inner">
-                <label th:text="#{project.details.title}"></label>
-                <a class="btn btn-success btn-sm"
-                   th:text="#{button.edit}"
-                   th:href="@{edit/{id}(id=${project.id})}"
-                   th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
-                </a>
-            </div>
-        </h1>
-
         <form action="#" th:action="@{/projects/save}" th:object="${project}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <div class="row">
                 <div class="col-md-9 col-sm-12">
                     <div class="form-group col-mb-3">
-                        <h2 style="font-size: xxx-large;font-family: Arial" th:text="${project.name}" id="name" ></h2>
-                        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                              class="text-danger"></span>
+                        <h1 class="row"
+                            id="name">
+                            <div class="inner">
+                                <label style="font-size: xx-large"
+                                       th:text="${project.name}">
+                                </label>
+                                <a class="btn btn-success btn-sm"
+                                   th:text="#{button.edit}"
+                                   th:href="@{edit/{id}(id=${project.id})}"
+                                   th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}"></a>
+                            </div>
+                        </h1>
+                        <div class="form-group col-mb-3">
+                            <label for="creator"
+                                   th:text="#{project.creator}"
+                                   style="float: left">
+                            </label>
+                            <p th:text="${project.creator.getFirstName() + ' ' + project.creator.getLastName()}"
+                               id="creator">Creator</p>
+                        </div>
                     </div>
                     <div class="form-group col-mb-3">
-                        <div class="border" id="description" th:utext="${project.html}">Content</div>
-                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{html}"
-                              class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-mb-3" >
-                        <label for="creator" th:text="#{project.creator}" style="float: left"></label>
-                        <p th:text="${project.creator.getFirstName() + ' ' + project.creator.getLastName()}" id="creator" >Creator</p>
+                        <div class="border"
+                             id="description"
+                             th:utext="${project.html}">Content</div>
                     </div>
                 </div>
             </div>
             <div class="inner pull-right">
                 <a th:href="@{/projects/delete/{id}(id=${project.id})}" class="btn btn-danger"
                    th:text="#{button.delete}"
-                   th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
-                </a>
+                   th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}"></a>
                 <a class="btn btn-secondary"
                    style="float: right"
                    th:href="@{/projects}"

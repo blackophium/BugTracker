@@ -34,11 +34,11 @@ public class Issue {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.TODO;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Priority priority;
+    private Priority priority = Priority.NORMAL;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -62,7 +62,6 @@ public class Issue {
 
     @Column(nullable = false)
     private final LocalDate dateCreated = LocalDate.now();
-    private LocalDate lastUpdate;
 
     @OneToMany(mappedBy = "issue")
     private List<Comment> comments;

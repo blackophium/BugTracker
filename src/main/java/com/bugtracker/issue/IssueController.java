@@ -104,9 +104,8 @@ public class IssueController {
     @GetMapping("/{id}")
     public String showIssueDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
         Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
-        model.addAttribute("issues", issueRepository.findAll());
-        model.addAttribute("persons", personRepository.findAllByEnabled(true));
-        model.addAttribute("projects", projectRepository.findAll());
+        model.addAttribute("person", issue.getAssignee());
+        model.addAttribute("project", issue.getProject());
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
