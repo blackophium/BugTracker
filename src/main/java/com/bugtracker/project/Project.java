@@ -3,6 +3,7 @@ package com.bugtracker.project;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import com.bugtracker.issue.Issue;
 import com.bugtracker.person.Person;
 import com.bugtracker.validators.UniqueProjectName;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @UniqueProjectName
+@ToString
 public class Project {
 
     @Id

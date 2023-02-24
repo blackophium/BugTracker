@@ -1,5 +1,6 @@
 package com.bugtracker.project;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -7,33 +8,36 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.bugtracker.person.*;
+import com.bugtracker.project.ProjectService;
 import com.bugtracker.issue.Issue;
 import com.bugtracker.issue.IssueRepository;
 import com.bugtracker.utils.MarkdownUtils;
+import com.bugtracker.security.SecurityService;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
 
     private final ProjectRepository projectRepository;
-    private final PersonService personService;
+    private final ProjectService projectService;
     private final PersonRepository personRepository;
     private final IssueRepository issueRepository;
-    private final MarkdownUtils markdownUtils;
+    private final SecurityService securityService;
 
     @Autowired
-    public ProjectController(ProjectRepository projectRepository, PersonService personService, PersonRepository personRepository,
-                             IssueRepository issueRepository, MarkdownUtils markdownUtils) {
+    public ProjectController(ProjectRepository projectRepository, ProjectService projectService, PersonRepository personRepository,
+                             IssueRepository issueRepository, SecurityService securityService) {
         this.projectRepository = projectRepository;
-        this.personService = personService;
+        this.projectService = projectService;
         this.personRepository = personRepository;
         this.issueRepository = issueRepository;
-        this.markdownUtils = markdownUtils;
+        this.securityService = securityService;
     }
 
     @GetMapping()
@@ -41,6 +45,7 @@ public class ProjectController {
         model.addAttribute("projects", projectRepository.findAll(projectFilter.buildQuery()));
         model.addAttribute("creator", personRepository.findAll());
         model.addAttribute("filter", projectFilter);
+        log.debug("Getting project list: {}", model);
         return "project/projects";
     }
 
@@ -52,14 +57,20 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    public String save(@Valid Project project, BindingResult result, Principal principal, Model model){
+    public String saveProject(Project project, BindingResult result, Principal principal){
+        String usernameLoggedPerson = securityService.getLoggedUser();
         if (result.hasErrors()){
+            log.error("There was a problem. The project: " + project + " was not saved.");
+            log.error("Error: {}", result);
+            log.debug("BindingResult: {}", result);
             return "project/add-project";
         }
-        Optional<Person> loggedUser = personService.getLoggedUser(principal);
-        loggedUser.ifPresent(project::setCreator);
-        project.setHtml(markdownUtils.markdownToHTML(project.getDescription()));
+        projectService.addCreatorToProject(project, principal);
+        projectService.markdownParser(project);
         projectRepository.save(project);
+
+        log.info("Created new project: " + project.getName() + " by: " + usernameLoggedPerson);
+        log.debug("Create new project: {}", project);
         return "redirect:/projects";
     }
 
@@ -73,11 +84,18 @@ public class ProjectController {
 
     @PostMapping("update/{id}")
     public String updateProject(@PathVariable("id") Long id, BindingResult result, @Valid Project project){
-        // Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
+        //Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
+        String usernameLoggedPerson = securityService.getLoggedUser();
         if (result.hasErrors()){
             project.setId(id);
+            log.error("There was a problem. The project: " + project + " was not updated.");
+            log.error("Error: {}", result);
+            log.debug("BindingResult: {}", result);
             return "project/add-project";
         }
+
+        log.info("Updated project: " + project.getName() + " by: " + usernameLoggedPerson);
+        log.debug("Updated project: {}", project);
         projectRepository.save(project);
         return "redirect:/projects";
     }
@@ -95,6 +113,12 @@ public class ProjectController {
     public String deleteIssue(@PathVariable("id") Long id) {
         Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
         List<Issue> allIssuesByProject = issueRepository.findAllByProject(project);
+        String usernameLoggedPerson = securityService.getLoggedUser();
+
+        log.info("Deleted " + project + " by " + usernameLoggedPerson);
+        log.debug("Deleting issues connected with project: {}", allIssuesByProject);
+        log.debug("Deleted project: {}", project);
+
         issueRepository.deleteAll(allIssuesByProject);
         projectRepository.delete(project);
         return "redirect:/projects";
