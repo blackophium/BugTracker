@@ -11,6 +11,8 @@ import com.bugtracker.enums.Status;
 import com.bugtracker.enums.Type;
 import com.bugtracker.person.Person;
 import com.bugtracker.project.Project;
+import com.bugtracker.validators.IssueMandatoryProject;
+import com.bugtracker.validators.IssueMandatoryAssignee;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +23,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@IssueMandatoryProject
+@IssueMandatoryAssignee
+
 public class Issue {
 
     @Id

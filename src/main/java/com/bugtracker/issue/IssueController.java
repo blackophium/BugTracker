@@ -17,6 +17,7 @@ import com.bugtracker.utils.MarkdownUtils;
 
 import java.security.Principal;
 import java.util.Optional;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/issues")
@@ -66,7 +67,7 @@ public class IssueController {
     }
 
     @PostMapping("/save")
-    public String save(Issue issue, BindingResult result, Principal principal, Model model) {
+    public String save(@Valid Issue issue, BindingResult result, Principal principal, Model model) {
         if (result.hasErrors()){
             return "issue/add-issue";
         }
