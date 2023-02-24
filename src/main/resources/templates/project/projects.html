@@ -2,10 +2,12 @@
 <html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
+
 <head>
     <meta charset="UTF-8">
     <title>Projects</title>
 </head>
+
 <body>
 <div class="container my-2">
     <div layout:fragment="content">
@@ -59,7 +61,6 @@
                             <tr>
                                 <th th:text="#{project.id}"></th>
                                 <th th:text="#{project.name}"></th>
-                                <th th:text="#{project.description}"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -72,7 +73,6 @@
                                     <a th:text="${project.name}"
                                        th:href="@{projects/{id}(id=${project.id})}"></a>
                                 </td>
-                                <td th:utext="${project.html}"></td>
                                 <td th:text="${project.creator.getFirstName() + ' ' + project.creator.getLastName()}"></td>
                             </tr>
                             </tbody>

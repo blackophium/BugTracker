@@ -14,8 +14,10 @@
             <h2 class="md-6 " style="text-align:center" th:text="#{users.listTitle}">Users</h2>
             <div th:switch="${users}" class="container my-5">
                 <p class="my-5">
-                    <a href="/users/create" class="btn btn-primary" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><i
-                            class="fas fa-user-plus ml-2" th:text="#{addUser.add}" > Add User</i></a>
+                    <a th:href="@{/users/create}"
+                       class="btn btn-primary"
+                       th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
+                        <i class="fas fa-user-plus ml-2" th:text="#{addUser.add}" > Add User</i></a>
                 </p>
                 <div class="col-md-12">
                     <h2 th:case="null">No Users yet!</h2>

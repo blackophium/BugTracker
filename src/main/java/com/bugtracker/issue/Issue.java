@@ -11,6 +11,8 @@ import com.bugtracker.enums.Status;
 import com.bugtracker.enums.Type;
 import com.bugtracker.person.Person;
 import com.bugtracker.project.Project;
+import com.bugtracker.validators.IssueMandatoryProject;
+import com.bugtracker.validators.IssueMandatoryAssignee;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +23,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@IssueMandatoryProject
+@IssueMandatoryAssignee
+
 public class Issue {
 
     @Id
@@ -29,11 +34,11 @@ public class Issue {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.TODO;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Priority priority;
+    private Priority priority = Priority.NORMAL;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -57,7 +62,6 @@ public class Issue {
 
     @Column(nullable = false)
     private final LocalDate dateCreated = LocalDate.now();
-    private LocalDate lastUpdate;
 
     @OneToMany(mappedBy = "issue")
     private List<Comment> comments;
