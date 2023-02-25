@@ -27,19 +27,15 @@
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_USERS_TAB'')')}">
                     <a class="nav-link" href="/users" th:text="#{nav.users}">Users</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/my_account}" th:text="#{nav.myAccount}">My account</a>
+                </li>
                 <form id="logout" class="form-inline mt-2 mt-md-0" th:action="@{/logout}" method="post">
                     <button class="btn" type="submit" th:text="#{login.logout}">
                         Logout
                     </button>
                 </form>
             </ul>
-
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
-                       th:placeholder="#{nav.search}">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" th:text="#{nav.search}">Search
-                </button>
-            </form>
 
         </div>
     </nav>

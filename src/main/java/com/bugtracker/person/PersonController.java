@@ -133,4 +133,48 @@ public class PersonController {
         log.debug("Updated user: {}", passwordForm);
         return "redirect:/users/edit/{id}";
     }
+
+    @GetMapping("/my_account")
+    public String showMyAccountForm(Principal principal, Model model) {
+        String username = principal.getName();
+        Person person = personRepository.findByUsername(username).orElse(null);
+        if (person == null){
+            log.error("There was a problem. The user was not found.");
+            log.error("Error: {}", model);
+            log.debug("BindingResult: {}", model);
+            return "error/404";
+        }
+        model.addAttribute("authorities", authorityRepository.findAll());
+        model.addAttribute("personForm", new PersonForm(person));
+        return "myAccount/my-account-details";
+    }
+
+    @GetMapping("my_account/edit/password/{id}")
+    public String showUpdateMyAccountPasswordForm(@PathVariable ("id") Long id, Model model) {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid person id : " + id));
+
+        model.addAttribute("passwordForm", new PasswordForm(person));
+        return "myAccount/my-account-password";
+    }
+
+    @PostMapping("my_account/update/password/{id}")
+    public String updateMyAccountPassword(@PathVariable("id") Long id, @Valid PasswordForm passwordForm, BindingResult result) {
+        String usernameLoggedPerson = securityService.getLoggedUser();
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid person id : " + id));
+
+        if(result.hasErrors()) {
+            passwordForm.setId(id);
+            log.error("There was a problem. The password: " + passwordForm + " was not update.");
+            log.error("Error: {}", result);
+            log.debug("BindingResult: {}", result);
+            return "myAccount/my-account-password";
+        }
+        personService.savePassword(passwordForm);
+
+        log.info("Updated user password: " + person.getUsername() + " by: " + usernameLoggedPerson);
+        log.debug("Updated user: {}", passwordForm);
+        return "redirect:/my_account";
+    }
 }
