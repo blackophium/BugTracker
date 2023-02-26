@@ -13,9 +13,8 @@
     <div layout:fragment="content">
 
         <div class="card">
-            <h2 class="md-6 "
-                style="text-align:center"
-                th:text="#{projects.listTitle}">Projects</h2>
+            <h1 class="capitol"
+                th:text="#{projects.listTitle}">Projects</h1>
             <div th:switch="${projects}" class="container my-5">
                 <p class="mb-4" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
                     <a th:href="@{'/projects/create'}"

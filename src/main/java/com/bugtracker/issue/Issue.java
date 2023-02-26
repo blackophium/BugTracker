@@ -3,7 +3,6 @@ package com.bugtracker.issue;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import com.bugtracker.comment.Comment;
 import com.bugtracker.enums.Priority;
@@ -22,7 +21,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @IssueMandatoryProject
 @IssueMandatoryAssignee
 
@@ -46,6 +44,7 @@ public class Issue {
 
     @Column(nullable = false, length = 120)
     private String name;
+    @Column(columnDefinition = "text")
     private String description;
 
     @ManyToOne
@@ -65,5 +64,7 @@ public class Issue {
 
     @OneToMany(mappedBy = "issue")
     private List<Comment> comments;
+
+    @Column(columnDefinition = "text")
     private String html;
 }

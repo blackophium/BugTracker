@@ -3,6 +3,7 @@ package com.bugtracker.project;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import com.bugtracker.issue.Issue;
 import com.bugtracker.person.Person;
 import com.bugtracker.validators.UniqueProjectName;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @UniqueProjectName
+@ToString
 public class Project {
 
     @Id
@@ -32,11 +34,15 @@ public class Project {
     @Column(nullable = false)
     private final Date dateCreated = new Date();
     private String code;
+
+    @Column(columnDefinition = "text")
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private Person creator;
+
+    @Column(columnDefinition = "text")
     private String html;
 
 }
