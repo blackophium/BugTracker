@@ -17,8 +17,8 @@
                 <div class="col-md-9 col-sm-12">
                     <div class="form-group col-mb-3">
                         <h1 class="row" >
-                            <div class="inner">
-                                <label style="font-size: xxx-large" th:text="${issue.name}" id="name"></label>
+                            <div  class="inner title">
+                                <label class="labelTitle" th:text="${issue.name}" id="name"></label>
                                 <a class="btn btn-success btn-sm"
                                    th:text="#{button.edit}"
                                    th:href="@{edit/{id}(id=${issue.id})}"></a>

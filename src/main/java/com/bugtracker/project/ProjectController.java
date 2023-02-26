@@ -53,6 +53,7 @@ public class ProjectController {
     @Secured("ROLE_MANAGE_PROJECTS")
     public String showProjectForm(Model model) {
         model.addAttribute("project", new Project());
+        log.debug("Getting project create form: {}", model);
         return "project/add-project";
     }
 
@@ -79,6 +80,8 @@ public class ProjectController {
     public String showUpdateForm(@PathVariable("id") Long id, Model model){
         Project project =  projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
         model.addAttribute("project", project);
+        log.debug("Getting project update form: {}", model);
+        log.debug("Getting project to update: {}", project);
         return "project/add-project";
     }
 
@@ -105,6 +108,8 @@ public class ProjectController {
         Project project = projectRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Invalid project id: " + id));
         model.addAttribute("creator", project.getCreator());
         model.addAttribute("project", project);
+        log.debug("Getting project update form: {}", model);
+        log.debug("Getting details project: {}", project);
         return "project/details-project";
     }
 

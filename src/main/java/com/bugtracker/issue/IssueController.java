@@ -50,7 +50,7 @@ public class IssueController {
     }
 
     @GetMapping
-    public String users(@ModelAttribute IssueFilter issueFilter, Model model) {
+    public String issues(@ModelAttribute IssueFilter issueFilter, Model model) {
         model.addAttribute("issues", issueRepository.findAll(issueFilter.buildQuery()));
         model.addAttribute("assignedPerson", personRepository.findAll());
         model.addAttribute("projects", projectRepository.findAll());
@@ -70,6 +70,8 @@ public class IssueController {
         model.addAttribute("statuses", Status.values());
         model.addAttribute("priorities", Priority.values());
         model.addAttribute("issue", new Issue());
+
+        log.debug("Getting issue create form: {}", model);
         return "issue/add-issue";
     }
 
@@ -101,6 +103,9 @@ public class IssueController {
         model.addAttribute("types", Type.values());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("priorities", Priority.values());
+
+        log.debug("Getting issue update form: {}", model);
+        log.debug("Issue to update: {}", issue);
         return "issue/add-issue";
     }
 
@@ -124,7 +129,7 @@ public class IssueController {
 
     @GetMapping("/{id}")
     public String showIssueDetails(@ModelAttribute @PathVariable("id") Long id, Model model) {
-        Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid issue id: " + id));
+        Issue issue = issueRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Cannot find issue of id: " + id));
         model.addAttribute("person", issue.getAssignee());
         model.addAttribute("project", issue.getProject());
         model.addAttribute("priorities", Priority.values());
@@ -133,6 +138,7 @@ public class IssueController {
         model.addAttribute("issue", issue);
         model.addAttribute("creator", issue.getCreator());
 
+        log.debug("Getting issue details: {}", model);
         return "issue/details-issue";
     }
 
@@ -140,25 +146,14 @@ public class IssueController {
     public String deleteIssue(@PathVariable("id") Long id) {
         Issue issue = issueRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid issue id : " + id));
-
         String emailAddress = issue.getCreator().getEmail();
         String usernameLoggedPerson = securityService.getLoggedUser();
 
         log.info("Deleted " + issue + " by " + usernameLoggedPerson);
         log.debug("Deleted issue: {}", issue);
-        issueRepository.delete(issue);
 
-        String email = issue.getCreator().getEmail();
-        if (!emailAddress.isEmpty()){
-            String subject = "Usunięto Twoje zadanie";
-            mailService.send(new Mail(emailAddress, subject, issueService.initMailContent(issue)));
-            log.info("We send an email about closed issue to: " + emailAddress);
-            log.debug("Send an email about closed issue to: {}", emailAddress);
-        }else
-        {
-            log.info("We didn't send an email about closed issue. We couldn't find the email address of the user with the given login: " + issue.getCreator().getUsername());
-            log.debug("Didn't send an email about closed issue user with the given login: {}", issue.getCreator().getUsername());
-        }
+        issueRepository.delete(issue);
+        issueService.sendEmailAboutDeleteIssue(issue, emailAddress);
         return "redirect:/issues";
     }
 

@@ -9,7 +9,7 @@
 <body>
 <section class="container">
     <div layout:fragment="content">
-        <h1 class="mb-5"
+        <h1 class="capitol"
             th:text="#{myAccount.title}">My account</h1>
         <form th:action="@{/users/update/{id}(id=${personForm.id})}"
               th:object="${personForm}"

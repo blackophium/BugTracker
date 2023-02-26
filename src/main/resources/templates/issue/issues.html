@@ -12,9 +12,8 @@
 <div class="container my-2">
     <div layout:fragment="content">
         <div class="card">
-            <h2 class="md-6 "
-                style="text-align:center"
-                th:text="#{issues.listTitle}">Issues</h2>
+            <h1 class="capitol"
+                th:text="#{issues.listTitle}">Issues</h1>
             <div th:switch="${issues}"
                  class="container my-5">
                 <p class="mb-4">

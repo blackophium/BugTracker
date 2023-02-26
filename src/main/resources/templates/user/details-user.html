@@ -10,8 +10,8 @@
 <body>
 <section class="container">
     <div layout:fragment="content">
-        <h1 class="mb-5"
-            th:text="#{detailsUser.title}">Details User</h1>
+        <h1 class="capitol"
+            th:text="#{detailsUser.title}">User Details</h1>
         <form th:action="@{/users/update/{id}(id=${personForm.id})}"
               th:object="${personForm}"
               method="post">

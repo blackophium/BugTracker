@@ -10,8 +10,7 @@
 <body>
 <section class="container">
     <div layout:fragment="content">
-        <h1 class="mb-5"
-            th:text="#{addUser.title}">New User</h1>
+        <h1 class="capitol" th:text="#{addUser.title}">New User</h1>
         <form  th:action="@{/users/save}"
                th:object="${person}"
                method="post">

@@ -34,11 +34,15 @@ public class Project {
     @Column(nullable = false)
     private final Date dateCreated = new Date();
     private String code;
+
+    @Column(columnDefinition = "text")
     private String description;
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
     private Person creator;
+
+    @Column(columnDefinition = "text")
     private String html;
 
 }
