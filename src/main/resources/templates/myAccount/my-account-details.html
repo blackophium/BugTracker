@@ -9,7 +9,7 @@
 <body>
 <section class="container">
     <div layout:fragment="content">
-        <h1 class="capitol"
+        <h1 class="capitol mt-3"
             th:text="#{myAccount.title}">My account</h1>
         <form th:action="@{/users/update/{id}(id=${personForm.id})}"
               th:object="${personForm}"
@@ -86,7 +86,7 @@
                         </select>
                     </div>
                     <div>
-                        <<label for="password"
+                        <label for="password"
                                 class="col-form-label"
                                 th:text="#{addUser.password}">Password</label>
                         <div>

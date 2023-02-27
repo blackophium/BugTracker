@@ -12,10 +12,10 @@
 <div>
     <div layout:fragment="content">
         <div class="card">
-            <h1 class="capitol"
+            <h1 class="capitol mt-3"
                 th:text="#{issues.listTitle}">Issues</h1>
             <div th:switch="${issues}">
-                <p class="mb-4">
+                <p class="mb-4 ml-3">
                     <a th:href="@{/issues/create}"
                        class="btn btn-primary">
                         <i class="ml-2"

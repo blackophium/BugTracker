@@ -13,13 +13,13 @@
     <div layout:fragment="content">
 
         <div class="card">
-            <h1 class="capitol"
+            <h1 class="capitol mt-3"
                 th:text="#{projects.listTitle}">Projects</h1>
             <div th:switch="${projects}">
-                <p class="mb-3" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
+                <p class="mb-3 ml-3" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
                     <a th:href="@{'/projects/create'}"
                        class="btn btn-primary">
-                        <i class="fas fa-user-plus ml-2"
+                        <i class="fas fa-user-plus"
                            th:text="#{projects.add}"> Add Project</i></a>
                 </p>
                 <form th:action="@{/projects}"

@@ -11,13 +11,13 @@
 <div class="container">
     <div layout:fragment="content">
         <div class="card">
-            <h1 class="capitol" th:text="#{users.listTitle}">Users</h1>
+            <h1 class="capitol mt-3" th:text="#{users.listTitle}">Users</h1>
             <div th:switch="${users}">
-                <p>
+                <p class="ml-3">
                     <a th:href="@{/users/create}"
                        class="btn btn-primary"
                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
-                        <i class="fas fa-user-plus ml-2" th:text="#{addUser.add}" > Add User</i></a>
+                        <i class="fas fa-user-plus" th:text="#{addUser.add}" > Add User</i></a>
                 </p>
                 <div class="col-md-12">
                         <table class="table table-striped table-responsive-xl">
