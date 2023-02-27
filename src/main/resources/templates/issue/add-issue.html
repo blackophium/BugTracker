@@ -134,10 +134,9 @@
                                     th:text="${project.getName()}">Project
                             </option>
                         </select>
-                        <span th:if="${#fields.hasErrors('project')}"
-                              th:errors="*{project}"
-                              class="text-danger">
-                        </span>
+                        <small th:if="${#fields.hasErrors('project')}"
+                               th:errors="*{project}"
+                               class="text-danger"></small>
                     </div>
                 </div>
             </div>

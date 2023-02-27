@@ -10,11 +10,11 @@
 
 <body>
 <div layout:fragment="content">
-    <div class="container my-5">
-        <h1 class="capitol"
+    <div class="container">
+        <h1 class="capitol mt-3"
             th:if="${project.id == null}"
             th:text="#{project.title}">New project</h1>
-        <h1 class="capitol"
+        <h1 class="capitol mt-3"
             th:if="${project.id != null}"
             th:text="#{project.edit.title}">Update project</h1>
         <form th:action="@{/projects/save}"

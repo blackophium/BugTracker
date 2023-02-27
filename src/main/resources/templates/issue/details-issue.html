@@ -11,22 +11,23 @@
 <body>
 <div layout:fragment="content">
 
-    <div class="container my-5">
+    <div class="container mb-2">
         <form action="#" th:object="${issue}">
             <div class="row">
                 <div class="col-md-9 col-sm-12">
                     <div class="form-group col-mb-3">
                         <h1 class="row" >
-                            <div  class="inner title">
+                            <div  class="inner title mt-3">
                                 <label class="labelTitle" th:text="${issue.name}" id="name"></label>
-                                <a class="btn btn-success btn-sm"
+                                <p> </p>
+                                <a class="btn btn-primary"
                                    th:text="#{button.edit}"
                                    th:href="@{edit/{id}(id=${issue.id})}"></a>
                             </div>
                         </h1>
                         <div class="form-group col-mb-3">
                             <label for="creator" th:text="#{addIssue.creator}" style="float: left"></label>
-                            <p th:text="${issue.creator.getFirstName() + ' ' + issue.creator.getLastName()}"
+                            <p th:text="${': ' + issue.creator.getFirstName() + ' ' + issue.creator.getLastName()}"
                                id="creator">Creator</p>
                         </div>
 
@@ -38,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-3 col-sm-12 mt-4">
                     <div class="form-group col-mb-3">
                         <label for="type" th:text="#{addIssue.type}"></label>
                         <select class="form-control"

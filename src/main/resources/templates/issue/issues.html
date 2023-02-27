@@ -9,14 +9,13 @@
 </head>
 
 <body>
-<div class="container my-2">
+<div>
     <div layout:fragment="content">
         <div class="card">
-            <h1 class="capitol"
+            <h1 class="capitol mt-3"
                 th:text="#{issues.listTitle}">Issues</h1>
-            <div th:switch="${issues}"
-                 class="container my-5">
-                <p class="mb-4">
+            <div th:switch="${issues}">
+                <p class="mb-4 ml-3">
                     <a th:href="@{/issues/create}"
                        class="btn btn-primary">
                         <i class="ml-2"
@@ -29,8 +28,8 @@
                                class="form-control"
                                th:placeholder="#{name.issues.placeholder}"/>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-auto">
+                    <div class="row md-3 mb-3 ml-auto mr-auto">
+                        <div class="col-md-3">
                             <select th:field="*{project}"
                                     class="form-control"
                                     onchange="this.form.submit()">
@@ -42,7 +41,7 @@
                                         th:text="${project.name}"></option>
                             </select>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-md-3">
                             <select th:field="*{assignee}"
                                     class="form-control"
                                     onchange="this.form.submit()">
@@ -53,7 +52,7 @@
                                         th:text="${person.firstName + ' ' + person.lastName}"></option>
                             </select>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-md-2">
                             <select th:field="*{type}"
                                     class="form-control"
                                     onchange="this.form.submit()">
@@ -64,7 +63,7 @@
                                         th:text="${#messages.msg('type.' + type)}"></option>
                             </select>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-md-2">
                             <select th:field="*{status}"
                                     class="form-control"
                                     onchange="this.form.submit()">
@@ -75,7 +74,7 @@
                                         th:text="${#messages.msg('status.' + status)}"></option>
                             </select>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-md-2">
                             <select th:field="*{priority}"
                                     class="form-control"
                                     onchange="this.form.submit()">
@@ -86,7 +85,7 @@
                                         th:text="${#messages.msg('priority.' + priority)}"></option>
                             </select>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-auto mt-3 mr-auto">
                             <button class="btn btn-primary"
                                     type="submit"
                                     th:text="#{button.search}"></button>

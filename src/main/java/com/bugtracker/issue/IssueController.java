@@ -76,13 +76,16 @@ public class IssueController {
     }
 
     @PostMapping("/save")
-    public String saveIssue(Issue issue, BindingResult result, Principal principal) {
+    public String saveIssue(Issue issue, BindingResult result, Principal principal, Model model) {
         String usernameLoggedPerson = securityService.getLoggedUser();
 
         if (result.hasErrors()){
+            model.addAttribute("persons", personRepository.findAllByEnabled(true));
+            model.addAttribute("projects", projectRepository.findAll());
             log.error("There was a problem. The issue: " + issue + " was not saved.");
             log.error("Error: {}", result);
             log.debug("BindingResult: {}", result);
+            log.debug("Model create new issue: {}", model);
             return "issue/add-issue";
         }
         issueService.addCreatorToIssue(issue, principal);
@@ -91,6 +94,7 @@ public class IssueController {
 
         log.info("Created new issue: " + issue.getName() + " by: " + usernameLoggedPerson);
         log.debug("Create new issue: {}", issue);
+        log.debug("Model create new issue: {}", model);
         return "redirect:/issues";
     }
 
