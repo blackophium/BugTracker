@@ -15,7 +15,7 @@
               th:object="${personForm}"
               method="post">
             <input type="hidden" th:field="*{id}"/>
-            <div class="row-cols-1">
+            <div>
                 <div class="mb-3">
                     <div>
                         <label for="username"
@@ -97,7 +97,8 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3"
+                         th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
                         <div>
                             <h5 class="form-label"
                                 th:text="#{addUser.authorities}"></h5>

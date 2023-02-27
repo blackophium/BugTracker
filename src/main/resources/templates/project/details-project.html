@@ -9,7 +9,7 @@
 </head>
 
 <div layout:fragment="content">
-    <div class="container my-5">
+    <div class="container">
         <form action="#" th:action="@{/projects/save}" th:object="${project}" method="post">
             <input type="hidden" th:field="*{id}"/>
             <div>

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.bugtracker.person.Person;
 import com.bugtracker.person.PersonService;
-import com.bugtracker.project.Project;
 import com.bugtracker.utils.MarkdownUtils;
 import com.bugtracker.mail.Mail;
 import com.bugtracker.mail.MailService;
@@ -32,8 +31,8 @@ public class IssueService {
 
     public String initMailContent(Issue issue) {
         String dateCreated = issue.getDateCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "r.";
-        String dateClosed = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "r.";
-        String content = "Twoje zgłoszenie, utworzone w dniu: " + dateCreated + " zostało zamknięte w dniu: " + dateClosed;
+        String dateDelete = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "r.";
+        String content = "Twoje zgłoszenie " + "'"+ issue.getName() + "'" + " (dot. projektu: " + issue.getProject().getName() + "), utworzone w dniu: " + dateCreated + " zostało usunięte w dniu: " + dateDelete;
         return content;
     }
 
