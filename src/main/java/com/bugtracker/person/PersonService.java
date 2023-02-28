@@ -2,9 +2,12 @@ package com.bugtracker.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import com.bugtracker.enums.Role;
 import com.bugtracker.auth.Authority;
 import com.bugtracker.auth.AuthorityRepository;
@@ -53,6 +56,10 @@ public class PersonService {
     public void addAuthority(Person person, Authority authority) {
         person.authorities.add(authority);
         personRepository.save(person);
+    }
+
+    public Page<Person> findAll(PersonFilter personFilter, Pageable pageable){
+        return personRepository.findAll(personFilter.buildQuery(), pageable);
     }
 
     void savePerson(PersonForm personForm) {

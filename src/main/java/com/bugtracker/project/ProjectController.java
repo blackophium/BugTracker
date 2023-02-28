@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +43,9 @@ public class ProjectController {
     }
 
     @GetMapping()
-    public String projects(@ModelAttribute ProjectFilter projectFilter, Model model){
-        model.addAttribute("projects", projectRepository.findAll(projectFilter.buildQuery()));
+    public String projects(@ModelAttribute ProjectFilter projectFilter, Model model, Pageable pageable) throws InterruptedException {
+        Page<Project> projects = projectService.findAll(projectFilter, pageable);
+        model.addAttribute("projects", projects);
         model.addAttribute("creator", personRepository.findAll());
         model.addAttribute("filter", projectFilter);
         log.debug("Getting project list: {}", model);

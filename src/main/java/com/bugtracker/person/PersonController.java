@@ -6,11 +6,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.bugtracker.auth.AuthorityRepository;
 import com.bugtracker.security.SecurityService;
-import com.bugtracker.project.Project;
+import com.bugtracker.enums.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -36,8 +39,11 @@ public class PersonController {
 
     @GetMapping
     @Secured("ROLE_USERS_TAB")
-    public String users(Model model){
-        model.addAttribute("users", this.personRepository.findAll());
+    public String users(@ModelAttribute PersonFilter personFilter, Model model, Pageable pageable) {
+        Page<Person> users = personService.findAll(personFilter, pageable);
+        model.addAttribute("users", users);
+        model.addAttribute("filter", personFilter);
+        model.addAttribute("roles", Role.values());
         log.debug("Getting users list: {}", model);
         return "user/users";
     }

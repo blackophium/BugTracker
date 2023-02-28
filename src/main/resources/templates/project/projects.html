@@ -2,85 +2,128 @@
 <html lang="en" layout:decorate="~{/layouts/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="https://github.com/ultraq/thymeleaf-layout-dialect">
-
 <head>
     <meta charset="UTF-8">
     <title>Projects</title>
+
+
 </head>
-
 <body>
-<div class="container">
+<section class="container">
     <div layout:fragment="content">
+        <h1 class="capitol mt-3"
+            th:text="#{projects.listTitle}">Projects</h1>
+        <div th:switch="${projects}">
+            <p class="mb-3 ml-3" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
+                <a th:href="@{'/projects/create'}"
+                   class="btn btn-primary"
+                    th:text="#{projects.add}"> Add Project</a>
+            </p>
 
-        <div class="card">
-            <h1 class="capitol mt-3"
-                th:text="#{projects.listTitle}">Projects</h1>
-            <div th:switch="${projects}">
-                <p class="mb-3 ml-3" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_PROJECTS'')')}">
-                    <a th:href="@{'/projects/create'}"
-                       class="btn btn-primary">
-                        <i class="fas fa-user-plus"
-                           th:text="#{projects.add}"> Add Project</i></a>
-                </p>
-                <form th:action="@{/projects}"
-                      th:object="${filter}">
-                    <div class="col-auto mb-3">
-                        <input th:field="*{name}"
-                               class="form-control"
-                               th:placeholder="#{name.projects.placeholder}"/>
-                    </div>
-                    <div class="row mb-3 ml-auto">
-                        <div class="col-auto">
-                            <select th:field="*{creator}"
-                                    class="form-control"
-                                    onchange="this.form.submit()">
-                                <option th:value="${null}"
-                                        th:text="#{creator.projects.placeholder}">
-                                </option>
-                                <option th:each="person : ${creator}"
-                                        th:value="${person.id}"
-                                        th:text="${person.firstName + ' ' + person.lastName}"></option>
-                            </select>
-                        </div>
-                        <div class="col-auto">
-                            <button class="btn btn-primary"
-                                    type="submit"
-                                    th:text="#{button.search}"></button>
-                            <a th:href="@{/projects}"
-                               th:text="#{button.clear}"
-                               class="btn btn-secondary"></a>
-                        </div>
-                    </div>
-                </form>
 
-                <div class="col-md-12">
-                    <div>
-                        <table class="table table-striped table-responsive-md">
-                            <thead>
-                            <tr>
-                                <th th:text="#{project.id}"></th>
-                                <th th:text="#{project.name}"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="project : ${projects}">
-                                <td>
-                                    <a th:href="@{projects/{id}(id=${project.id})}"
-                                       th:text="${project.id}"></a>
-                                </td>
-                                <td>
-                                    <a th:text="${project.name}"
-                                       th:href="@{projects/{id}(id=${project.id})}"></a>
-                                </td>
-                                <td th:text="${project.creator.getFirstName() + ' ' + project.creator.getLastName()}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
+            <form th:action="@{/projects}"
+                  th:object="${filter}">
+                <div class="col-auto mb-3">
+                    <input th:field="*{name}"
+                           class="form-control"
+                           th:placeholder="#{name.projects.placeholder}"/>
+                </div>
+                <div class="row mb-3 mx-auto">
+                    <div class="col-auto">
+                        <select th:field="*{creator}"
+                                class="form-control"
+                                onchange="this.form.submit()">
+                            <option th:value="${null}"
+                                    th:text="#{creator.projects.placeholder}">
+                            </option>
+                            <option th:each="person : ${creator}"
+                                    th:value="${person.id}"
+                                    th:text="${person.firstName + ' ' + person.lastName}"></option>
+                        </select>
                     </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary"
+                                type="submit"
+                                th:text="#{button.search}"></button>
+                        <a th:href="@{/projects}"
+                           th:text="#{button.clear}"
+                           class="btn btn-secondary"></a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-md-12">
+                <div>
+                    <table class="table table-striped table-responsive-md">
+                        <thead>
+                        <tr>
+                            <th th:text="#{project.id}"></th>
+                            <th th:text="#{project.name}"></th>
+                            <th th:text="#{project.creator}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="project : ${projects}">
+                            <td>
+                                <a th:href="@{projects/{id}(id=${project.id})}"
+                                   th:text="${project.id}"></a>
+                            </td>
+                            <td>
+                                <a th:text="${project.name}"
+                                   th:href="@{projects/{id}(id=${project.id})}"></a>
+                            </td>
+                            <td th:text="${project.creator.getFirstName() + ' ' + project.creator.getLastName()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:if="${projects.totalPages > 0}" class="row pagin">
+                    <ul class="pagination ml-1">
+                        <li th:if="${projects.totalPages > 1}"
+                            class="page-item">
+                            <a th:href="@{'/projects?' + ${filter.toQueryString(0)}}"
+                               class="page-link">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+
+                        <li th:if="${projects.number != 0}"
+                            class="page-item">
+                            <a th:href="@{'/projects?' + ${filter.toQueryString(projects.number - 1)}}"
+                               class="page-link">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+
+
+                        <li th:each="pageNumber : ${#numbers.sequence(T(Math).max(1, projects.number - 2), T(Math).min(projects.number + 4, projects.totalPages))}"
+                            th:class="${'page-item ' + ((pageNumber == projects.number + 1) ? 'active' : '')}">
+                            <a th:href="@{'/projects?' + ${filter.toQueryString(pageNumber - 1)}}"
+                               th:text="${pageNumber}"
+                               class="page-link"></a>
+                        </li>
+
+                        <li th:if="${projects.number != projects.totalPages - 1}"
+                            class="page-item">
+                            <a th:href="@{'/projects?' + ${filter.toQueryString(projects.number + 1)}}"
+                               class="page-link">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+
+                        <li th:if="${projects.totalPages > 1}"
+                            class="page-item">
+                            <a th:href="@{'/projects?' + ${filter.toQueryString(projects.totalPages - 1)}}"
+                               class="page-link">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</section>
 </div>
 </body>
 </html>

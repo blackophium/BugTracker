@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import com.bugtracker.enums.Priority;
@@ -29,29 +31,23 @@ public class IssueController {
     private final IssueRepository issueRepository;
     private final PersonRepository personRepository;
     private final ProjectRepository projectRepository;
-    private final PersonService personService;
-    private final MailService mailService;
     private final IssueService issueService;
-    private final MarkdownUtils markdownUtils;
     private final SecurityService securityService;
 
     @Autowired
     public IssueController(IssueRepository issueRepository, PersonRepository personRepository, ProjectRepository projectRepository,
-                           PersonService personService, MailService mailService, IssueService issueService, MarkdownUtils markdownUtils,
-                           SecurityService securityService) {
+                           IssueService issueService, SecurityService securityService) {
         this.issueRepository = issueRepository;
         this.personRepository = personRepository;
         this.projectRepository = projectRepository;
-        this.personService = personService;
-        this.mailService = mailService;
         this.issueService = issueService;
-        this.markdownUtils = markdownUtils;
         this.securityService = securityService;
     }
 
     @GetMapping
-    public String issues(@ModelAttribute IssueFilter issueFilter, Model model) {
-        model.addAttribute("issues", issueRepository.findAll(issueFilter.buildQuery()));
+    public String issues(@ModelAttribute IssueFilter issueFilter, Model model, Pageable pageable){
+        Page<Issue> issues = issueService.findAll(issueFilter, pageable);
+        model.addAttribute("issues", issues);
         model.addAttribute("assignedPerson", personRepository.findAll());
         model.addAttribute("projects", projectRepository.findAll());
         model.addAttribute("filter", issueFilter);

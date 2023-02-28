@@ -10,6 +10,10 @@
     margin-left: 11px;
 }
 
+td > a{
+    color: darkslategrey;
+}
+
 .labelTitle{
     font-size: 50px ;
 }
@@ -21,4 +25,37 @@
 
 #markdownInfo{
     text-align: center;
+}
+
+.pagin{
+    margin: auto;
+    width: fit-content;
+    padding: 10px;
+}
+
+.btn-primary {
+    background-color: darkslategrey !important;
+    border: darkslategrey !important;
+}
+
+.btn-danger {
+    background-color: #5B0B0B !important;
+    border: #5B0B0B !important;
+}
+
+.page-link {
+    background-color: darkslategrey !important;
+    border: darkslategrey !important;
+}
+
+#issueFilterBottoms{
+    float: right;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+#usersFilterBottoms{
+    float: right;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
 }
