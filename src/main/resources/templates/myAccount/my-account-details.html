@@ -11,10 +11,13 @@
     <div layout:fragment="content">
         <h1 class="capitol mt-3"
             th:text="#{myAccount.title}">My account</h1>
-        <form th:action="@{/users/update/{id}(id=${personForm.id})}"
+        <form th:action="@{/users/my_account/update/{id}(id=${personForm.id})}"
               th:object="${personForm}"
               method="post">
             <input type="hidden" th:field="*{id}"/>
+            <div th:if="${success}" class="alert alert-success">
+                <span th:text="#{alert.save.success}"></span>
+            </div>
             <div>
                 <div class="mb-3">
                     <div>

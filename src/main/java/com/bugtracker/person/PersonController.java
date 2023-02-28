@@ -169,6 +169,27 @@ public class PersonController {
         return "myAccount/my-account-details";
     }
 
+    @PostMapping("/my_account/update/{id}")
+    public String updateMyAccount(@PathVariable("id") Long id, @Valid PersonForm personForm, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        String usernameLoggedPerson = securityService.getLoggedUser();
+
+        if(result.hasErrors()) {
+            model.addAttribute("authorities", authorityRepository.findAll());
+            personForm.setId(id);
+            log.error("There was a problem. The user: " + personForm + " was not update.");
+            log.error("Error: {}", result);
+            log.debug("BindingResult: {}", result);
+            return "myAccount/my-account-details";
+        }
+        personService.savePerson(personForm);
+
+        redirectAttributes.addFlashAttribute("success", "Success");
+
+        log.info("Updated user: " + personForm.getUsername() + " by: " + usernameLoggedPerson);
+        log.debug("Updated user: {}", personForm);
+        return "redirect:/users/my_account";
+    }
+
     @GetMapping("my_account/edit/password/{id}")
     public String showUpdateMyAccountPasswordForm(@PathVariable ("id") Long id, Model model) {
         Person person = personRepository.findById(id)
@@ -194,6 +215,6 @@ public class PersonController {
         }
         personService.savePassword(passwordForm);
         log.debug("Updated user: {}", passwordForm);
-        return "redirect:/my_account";
+        return "redirect:/users/my_account";
     }
 }

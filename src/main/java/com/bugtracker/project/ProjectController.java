@@ -61,7 +61,7 @@ public class ProjectController {
     }
 
     @PostMapping("/save")
-    public String saveProject(Project project, BindingResult result, Principal principal){
+    public String saveProject(@Valid Project project, BindingResult result, Principal principal){
         String usernameLoggedPerson = securityService.getLoggedUser();
         if (result.hasErrors()){
             log.error("There was a problem. The project: " + project + " was not saved.");
