@@ -8,72 +8,167 @@
     <title>Users</title>
 </head>
 <body>
-<div class="container">
+<section class="container">
     <div layout:fragment="content">
-        <div class="card">
-            <h1 class="capitol mt-3" th:text="#{users.listTitle}">Users</h1>
-            <div th:switch="${users}">
-                <p class="ml-3">
-                    <a th:href="@{/users/create}"
-                       class="btn btn-primary"
-                       th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">
-                        <i class="fas fa-user-plus" th:text="#{addUser.add}" > Add User</i></a>
-                </p>
-                <div class="col-md-12">
-                        <table class="table table-striped table-responsive-xl">
-                            <thead>
-                            <tr>
-                                <th th:text="#{addUser.lastName}">Last name</th>
-                                <th th:text="#{addUser.firstName}">First name</th>
-                                <th th:text="#{addUser.username}">Username</th>
-                                <th th:text="#{addUser.role}">Role</th>
-                                <th th:text="#{addUser.email}">Email</th>
-                                <th th:text="#{addUser.date}">Created date</th>
-                                <th th:text="#{addUser.edit}" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Edit</th>
-                                <th th:text="#{addUser.delete}" th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="user : ${users}" th:if="${user.enabled}">
-                                <td th:text="${user.lastName}"></td>
-                                <td th:text="${user.firstName}"></td>
-                                <td th:text="${user.username}"></td>
-                                <td th:text="${user.role}"></td>
-                                <td th:text="${user.email}"></td>
-                                <td th:text="${#dates.format(user.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
-                                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary"
-                                                                                                              th:text="#{addUser.edit}"></a></td>
-                                <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger delBtn"
-                                                                                                              th:text="#{addUser.delete}"></a></td>
-                            </tr>
-                            </tbody>
-                        </table>
+        <h1 class="capitol mt-3" th:text="#{users.listTitle}">Users</h1>
+        <div th:switch="${users}">
+            <p>
+                <a th:href="@{/users/create}"
+                   class="btn btn-primary"
+                   th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
+                   th:text="#{addUser.add}"> Add User</a>
+            </p>
+            <form th:action="@{/users}"
+                  th:object="${filter}">
+                <div class="row md-3">
+                    <div class="col-md-2">
+                        <input th:field="*{lastName}"
+                               class="form-control"
+                               th:placeholder="#{lastName.users.placeholder}"/>
+                    </div>
+                    <div class="col-md-2">
+                        <input th:field="*{firstName}"
+                               class="form-control"
+                               th:placeholder="#{firstName.users.placeholder}"/>
+                    </div>
+                    <div class="col-md-3">
+                        <input th:field="*{username}"
+                               class="form-control"
+                               th:placeholder="#{username.users.placeholder}"/>
+                    </div>
+                    <div class="col-md-2">
+                        <select th:field="*{role}"
+                                class="form-control"
+                                onchange="this.form.submit()">
+                            <option th:value="${null}"
+                                    th:text="#{role.users.placeholder}"></option>
+                            <option th:each="role : ${roles}"
+                                    th:value="${role}"
+                                    th:text="${#messages.msg('role.' + role)}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input th:field="*{email}"
+                               class="form-control"
+                               th:placeholder="#{email.users.placeholder}"/>
                     </div>
                 </div>
-            </div>
-        </div>
+                <div id="usersFilterBottoms">
+                    <button class="btn btn-primary"
+                            type="submit"
+                            th:text="#{button.search}"></button>
+                    <a th:href="@{/users}"
+                       th:text="#{button.clear}"
+                       class="btn btn-secondary"></a>
+                </div>
+            </form>
 
-        <div class="myForm">
-            <div class="modal" tabindex="-1" role="dialog" id="myModal">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" th:text="#{popup.delete.title}">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="alert alert-danger" th:text="#{popup.delete.text}">Are you sure you want to delete this user?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="" class="btn btn-danger" id="delRef" th:text="#{button.delete}">Delete</a>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{button.cancel}">Close</button>
-                        </div>
+            <table class="table table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th th:text="#{addUser.lastName}">Last name</th>
+                    <th th:text="#{addUser.firstName}">First name</th>
+                    <th th:text="#{addUser.username}">Username</th>
+                    <th th:text="#{addUser.role}">Role</th>
+                    <th th:text="#{addUser.email}">Email</th>
+                    <th th:text="#{addUser.date}">Created date</th>
+                    <th th:text="#{addUser.edit}"
+                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Edit
+                    </th>
+                    <th th:text="#{addUser.delete}"
+                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Delete
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}" th:if="${user.enabled}">
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${#dates.format(user.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a
+                            th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary"
+                            th:text="#{addUser.edit}"></a></td>
+                    <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a
+                            th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger delBtn"
+                            th:text="#{addUser.delete}"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${users.totalPages > 0}" class="row pagin">
+            <ul class="pagination ml-1">
+                <li th:if="${users.totalPages > 1}"
+                    class="page-item">
+                    <a th:href="@{'/users?' + ${filter.toQueryString(0)}}"
+                       class="page-link">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                </li>
+
+                <li th:if="${users.number != 0}"
+                    class="page-item">
+                    <a th:href="@{'/users?' + ${filter.toQueryString(users.number - 1)}}"
+                       class="page-link">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                </li>
+
+
+                <li th:each="pageNumber : ${#numbers.sequence(T(Math).max(1, users.number - 2), T(Math).min(users.number + 4, users.totalPages))}"
+                    th:class="${'page-item ' + ((pageNumber == users.number + 1) ? 'active' : '')}">
+                    <a th:href="@{'/users?' + ${filter.toQueryString(pageNumber - 1)}}"
+                       th:text="${pageNumber}"
+                       class="page-link"></a>
+                </li>
+
+                <li th:if="${users.number != users.totalPages - 1}"
+                    class="page-item">
+                    <a th:href="@{'/users?' + ${filter.toQueryString(users.number + 1)}}"
+                       class="page-link">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                </li>
+
+                <li th:if="${users.totalPages > 1}"
+                    class="page-item">
+                    <a th:href="@{'/users?' + ${filter.toQueryString(users.totalPages - 1)}}"
+                       class="page-link">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="myForm">
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" th:text="#{popup.delete.title}">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="alert alert-danger" th:text="#{popup.delete.text}">Are you sure you want to delete
+                            this user?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="" class="btn btn-danger" id="delRef" th:text="#{button.delete}">Delete</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{button.cancel}">
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
+</div>
 </body>
 </html>

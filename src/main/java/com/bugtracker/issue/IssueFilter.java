@@ -77,4 +77,13 @@ public class IssueFilter {
         return specification;
     }
 
+    public String toQueryString(Integer page){
+        return "page=" + page +
+                (project != null ? "&project=" + project.getId() : "") +
+                (type != null ? "&type=" + type : "") +
+                (priority != null ? "&priority=" + priority : "") +
+                (assignee != null ? "&assignee=" + assignee.getId() : "") +
+                (name != null ? "&name=" + name : "");
+    }
+
 }

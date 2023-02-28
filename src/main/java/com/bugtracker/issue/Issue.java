@@ -67,4 +67,18 @@ public class Issue {
 
     @Column(columnDefinition = "text")
     private String html;
+
+    @Override
+    public String toString() {
+        return "Issue{" +
+                "id=" + id +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", dateCreated=" + dateCreated +
+                '}';
+    }
+
 }

@@ -2,6 +2,8 @@ package com.bugtracker.issue;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.bugtracker.person.Person;
 import com.bugtracker.person.PersonService;
 import com.bugtracker.utils.MarkdownUtils;
@@ -21,12 +23,14 @@ public class IssueService {
     private final PersonService personService;
     private final MarkdownUtils markdownUtils;
     private final MailService mailService;
+    private final IssueRepository issueRepository;
 
     @Autowired
-    public IssueService(PersonService personService, MarkdownUtils markdownUtils, MailService mailService) {
+    public IssueService(PersonService personService, MarkdownUtils markdownUtils, MailService mailService, IssueRepository issueRepository) {
         this.personService = personService;
         this.markdownUtils = markdownUtils;
         this.mailService = mailService;
+        this.issueRepository = issueRepository;
     }
 
     public String initMailContent(Issue issue) {
@@ -34,6 +38,11 @@ public class IssueService {
         String dateDelete = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "r.";
         String content = "Twoje zgłoszenie " + "'"+ issue.getName() + "'" + " (dot. projektu: " + issue.getProject().getName() + "), utworzone w dniu: " + dateCreated + " zostało usunięte w dniu: " + dateDelete;
         return content;
+    }
+
+    // pagination
+    public Page<Issue> findAll(IssueFilter issueFilter, Pageable pageable){
+        return issueRepository.findAll(issueFilter.buildQuery(), pageable);
     }
 
     void addCreatorToIssue(Issue issue, Principal principal) {

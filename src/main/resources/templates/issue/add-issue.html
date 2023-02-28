@@ -11,7 +11,7 @@
 <body>
 <div layout:fragment="content">
 
-    <div class="container">
+    <div class="container mb-3">
         <h1 class="capitol" th:if="${issue.id == null}" th:text="#{addIssue.title}">New Issue</h1>
         <h1 class="capitol" th:if="${issue.id != null}" th:text="#{issue.edit.title}">Update Issue</h1>
 
