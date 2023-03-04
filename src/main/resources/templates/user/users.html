@@ -13,6 +13,7 @@
         <h1 class="capitol mt-3" th:text="#{users.listTitle}">Users</h1>
         <div th:switch="${users}">
             <p>
+                <!-- authorise to create user - role manage users -->
                 <a th:href="@{/users/create}"
                    class="btn btn-primary"
                    th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"
@@ -72,12 +73,11 @@
                     <th th:text="#{addUser.role}">Role</th>
                     <th th:text="#{addUser.email}">Email</th>
                     <th th:text="#{addUser.date}">Created date</th>
+                    <!-- authorise to edit/remove user - role manage users -->
                     <th th:text="#{addUser.edit}"
-                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Edit
-                    </th>
+                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Edit</th>
                     <th th:text="#{addUser.delete}"
-                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Delete
-                    </th>
+                        th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -88,12 +88,16 @@
                     <td th:text="${user.role}"></td>
                     <td th:text="${user.email}"></td>
                     <td th:text="${#dates.format(user.dateCreated, 'dd-MM-yyyy HH:mm')}"></td>
+
+                    <!-- authorise to edit/remove user - role manage users -->
                     <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a
                             th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary"
                             th:text="#{addUser.edit}"></a></td>
                     <td th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_USERS'')')}"><a
-                            th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger delBtn"
+                            th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger"
                             th:text="#{addUser.delete}"></a>
+
+
                     </td>
                 </tr>
                 </tbody>
@@ -169,6 +173,5 @@
         </div>
     </div>
 </section>
-</div>
 </body>
 </html>

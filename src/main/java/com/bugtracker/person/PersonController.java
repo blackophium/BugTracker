@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -84,7 +83,8 @@ public class PersonController {
         String usernameLoggedPerson = securityService.getLoggedUser();
 
         log.info("Deleted " + person + " by " + usernameLoggedPerson);
-        log.debug("Deleted project: {}", person);
+        log.debug("Deleted person: {}", person);
+
         personService.softDeleteUser(id);
         return "redirect:/users";
     }
