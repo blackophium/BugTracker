@@ -33,16 +33,17 @@ public class Person {
     private Long id;
 
     @NotEmpty
-    @Size(min = 1, max = 20)
+    @Size(min = 3, max = 20)
     @Column(nullable = false, unique = true, length = 100)
     private String username;
 
     @Column(nullable = false)
     @Size(min = 8, max = 35)
-    @NotBlank(message = "Password is mandatory")
+    //@NotBlank(message = "Password is mandatory")
     private String password;
 
     @Transient
+    @NotBlank
     String repeatedPassword;
 
     @Column(nullable = false)

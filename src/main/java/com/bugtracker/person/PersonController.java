@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -84,7 +83,8 @@ public class PersonController {
         String usernameLoggedPerson = securityService.getLoggedUser();
 
         log.info("Deleted " + person + " by " + usernameLoggedPerson);
-        log.debug("Deleted project: {}", person);
+        log.debug("Deleted person: {}", person);
+
         personService.softDeleteUser(id);
         return "redirect:/users";
     }
@@ -169,6 +169,27 @@ public class PersonController {
         return "myAccount/my-account-details";
     }
 
+    @PostMapping("/my_account/update/{id}")
+    public String updateMyAccount(@PathVariable("id") Long id, @Valid PersonForm personForm, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        String usernameLoggedPerson = securityService.getLoggedUser();
+
+        if(result.hasErrors()) {
+            model.addAttribute("authorities", authorityRepository.findAll());
+            personForm.setId(id);
+            log.error("There was a problem. The user: " + personForm + " was not update.");
+            log.error("Error: {}", result);
+            log.debug("BindingResult: {}", result);
+            return "myAccount/my-account-details";
+        }
+        personService.savePerson(personForm);
+
+        redirectAttributes.addFlashAttribute("success", "Success");
+
+        log.info("Updated user: " + personForm.getUsername() + " by: " + usernameLoggedPerson);
+        log.debug("Updated user: {}", personForm);
+        return "redirect:/users/my_account";
+    }
+
     @GetMapping("my_account/edit/password/{id}")
     public String showUpdateMyAccountPasswordForm(@PathVariable ("id") Long id, Model model) {
         Person person = personRepository.findById(id)
@@ -194,6 +215,6 @@ public class PersonController {
         }
         personService.savePassword(passwordForm);
         log.debug("Updated user: {}", passwordForm);
-        return "redirect:/my_account";
+        return "redirect:/users/my_account";
     }
 }

@@ -10,7 +10,7 @@
 <body>
 <section class="container">
     <div layout:fragment="content">
-        <h1 class="capitol" th:text="#{addUser.title}">New User</h1>
+        <h1 class="capitol mt-3" th:text="#{addUser.title}">New User</h1>
         <form  th:action="@{/users/save}"
                th:object="${person}"
                method="post">
@@ -26,9 +26,9 @@
                                id="username"
                                placeholder="Username"
                                th:placeholder="#{addUser.username}">
-                        <span th:if="${#fields.hasErrors('username')}"
+                        <small th:if="${#fields.hasErrors('username')}"
                               th:errors="*{username}"
-                              class="text-danger"></span>
+                              class="text-danger"></small>
                     </div>
                     <div>
                         <label for="password"
@@ -40,9 +40,9 @@
                                id="password"
                                placeholder="Password"
                                th:placeholder="#{addUser.password}">
-                        <span th:if="${#fields.hasErrors('password')}"
+                        <small th:if="${#fields.hasErrors('password')}"
                               th:errors="*{password}"
-                              class="text-danger"></span>
+                              class="text-danger"></small>
                     </div>
                     <div>
                         <label for="repeatedPassword"
@@ -54,9 +54,9 @@
                                id="repeatedPassword"
                                placeholder="Repeat password"
                                th:placeholder="#{addUser.passwordRepeat}">
-                        <span th:if="${#fields.hasErrors('repeatedPassword')}"
+                        <small th:if="${#fields.hasErrors('repeatedPassword')}"
                               th:errors="*{repeatedPassword}"
-                              class="text-danger"></span>
+                              class="text-danger"></small>
                     </div>
                     <div>
                         <div>
@@ -69,8 +69,8 @@
                                    id="firstname"
                                    placeholder="First name"
                                    th:placeholder="#{addUser.firstName}">
-                            <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                                  class="text-danger"></span>
+                            <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                  class="text-danger"></small>
                         </div>
                         <div>
                             <label for="lastname"
@@ -82,9 +82,9 @@
                                    id="lastname"
                                    placeholder="Last name"
                                    th:placeholder="#{addUser.lastName}">
-                            <span th:if="${#fields.hasErrors('lastName')}"
+                            <small th:if="${#fields.hasErrors('lastName')}"
                                   th:errors="*{lastName}"
-                                  class="text-danger"></span>
+                                  class="text-danger"></small>
                         </div>
                         <div>
                             <label for="email"
@@ -96,9 +96,9 @@
                                    id="email"
                                    placeholder="Email"
                                    th:placeholder="#{addUser.email}">
-                            <span th:if="${#fields.hasErrors('email')}"
+                            <small th:if="${#fields.hasErrors('email')}"
                                   th:errors="*{email}"
-                                  class="text-danger"></span>
+                                  class="text-danger"></small>
                         </div>
                     </div>
                     <div>

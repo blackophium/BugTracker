@@ -9,6 +9,7 @@ import com.bugtracker.person.PersonService;
 import com.bugtracker.utils.MarkdownUtils;
 import com.bugtracker.mail.Mail;
 import com.bugtracker.mail.MailService;
+import com.bugtracker.project.Project;
 
 import java.security.Principal;
 import java.time.LocalDate;

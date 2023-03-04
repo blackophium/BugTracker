@@ -30,10 +30,10 @@
                                id="name"
                                placeholder="Subject"
                                th:placeholder="#{addIssue.name}">
-                        <span th:if="${#fields.hasErrors('name')}"
+                        <small th:if="${#fields.hasErrors('name')}"
                               th:errors="*{name}"
                               class="text-danger">
-                        </span>
+                        </small>
                     </div>
                     <div class="form-group col-mb-3">
                         <label for="description"
@@ -60,9 +60,6 @@
                         <select class="form-control"
                                 name="type" id="type"
                                 th:field="*{type}">
-                            <option th:value="${null}"
-                                    th:text="#{type.placeholder}">
-                            </option>
                             <option th:each="type : ${types}"
                                     th:value="${type}"
                                     th:text="${#messages.msg('type.' + type)}">Type
@@ -77,9 +74,6 @@
                                 name="priority"
                                 id="priority"
                                 th:field="*{priority}">
-                            <option th:value="${null}"
-                                    th:text="#{priority.placeholder}">
-                            </option>
                             <option th:each="priority : ${priorities}"
                                     th:value="${priority}"
                                     th:text="${#messages.msg('priority.' + priority)}">Priority
@@ -92,8 +86,6 @@
                                 name="status"
                                 id="status"
                                 th:field="*{status}">
-                            <option th:value="${null}"
-                                    th:text="#{status.placeholder}">
                             </option>
                             <option th:each="status : ${statuses}"
                                     th:value="${status}"

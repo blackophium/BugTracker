@@ -6,6 +6,7 @@ import lombok.Setter;
 import com.bugtracker.issue.Issue;
 import com.bugtracker.person.Person;
 import com.bugtracker.validators.UniqueProjectName;
+import com.bugtracker.validators.ProjectMandatoryTitle;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @UniqueProjectName
+@ProjectMandatoryTitle
 public class Project {
 
     @Id
@@ -42,5 +44,18 @@ public class Project {
 
     @Column(columnDefinition = "text")
     private String html;
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", issues=" + issues +
+                ", enabled=" + enabled +
+                ", dateCreated=" + dateCreated +
+                ", description='" + description + '\'' +
+                ", html='" + html + '\'' +
+                '}';
+    }
 
 }

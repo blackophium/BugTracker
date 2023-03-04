@@ -18,22 +18,25 @@ public class MailService {
     }
 
 
-    public void send (Mail mail){
-        String recipent = mail.getRecipient();
-        try{
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+    public void send (Mail mail) {
+        Runnable send = () -> {
+            String recipent = mail.getRecipient();
+            try {
+                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
-            mimeMessageHelper.setTo(mail.getRecipient());
-            mimeMessageHelper.setSubject(mail.getSubject());
-            mimeMessageHelper.setText(mail.getContent());
+                mimeMessageHelper.setTo(mail.getRecipient());
+                mimeMessageHelper.setSubject(mail.getSubject());
+                mimeMessageHelper.setText(mail.getContent());
 
-            javaMailSender.send(mimeMessage);
-            log.info("Wysłano maila na adres :" + recipent);
+                javaMailSender.send(mimeMessage);
+                log.info("Wysłano maila na adres :" + recipent);
 
-        }catch (Exception e){
-            log.error("Wysłane maila na adres : " + recipent + " nie powiodło się..");
-            e.printStackTrace();
-        }
+            } catch (Exception e) {
+                log.error("Wysłane maila na adres : " + recipent + " nie powiodło się..");
+                e.printStackTrace();
+            }
+        };
+        new Thread(send).start();
     }
 }

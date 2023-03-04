@@ -12,6 +12,10 @@ import com.bugtracker.person.Person;
 import com.bugtracker.project.Project;
 import com.bugtracker.validators.IssueMandatoryProject;
 import com.bugtracker.validators.IssueMandatoryAssignee;
+import com.bugtracker.validators.IssueMandatoryTitle;
+
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,6 +27,7 @@ import java.util.List;
 @Setter
 @IssueMandatoryProject
 @IssueMandatoryAssignee
+@IssueMandatoryTitle
 
 public class Issue {
 
@@ -30,20 +35,25 @@ public class Issue {
     @GeneratedValue
     private Long id;
 
+    @Audited
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status = Status.TODO;
 
+    @Audited
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Priority priority = Priority.NORMAL;
 
+    @Audited
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Type type = Type.TASK;
 
+    @Audited
     @Column(nullable = false, length = 120)
     private String name;
+
     @Column(columnDefinition = "text")
     private String description;
 
@@ -55,6 +65,7 @@ public class Issue {
     @JoinColumn(name = "creator_id", nullable = false)
     private Person creator;
 
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     @ManyToOne
     @JoinColumn(name = "assignee_id", nullable = false)
     private Person assignee;

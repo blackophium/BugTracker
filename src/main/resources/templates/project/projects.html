@@ -78,7 +78,7 @@
                     </table>
                 </div>
                 <div th:if="${projects.totalPages > 0}" class="row pagin">
-                    <ul class="pagination ml-1">
+                    <ul class="pagination ml-2">
                         <li th:if="${projects.totalPages > 1}"
                             class="page-item">
                             <a th:href="@{'/projects?' + ${filter.toQueryString(0)}}"

@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <form th:action="@{/login}" method="post" class="login-form">
-        <h1 th:text="#{login.label}"/>
+        <h1 th:text="#{login.label}" style="text-align: center"/>
 
         <div th:if="${param.logout}" class="alert alert-danger">
             <span th:text="#{login.loggedOut}"></span>
@@ -29,8 +29,8 @@
             <input id="password" type="password" name="password" class="form-control" th:placeholder="#{password.placeholder}" alt="password"/>
         </div>
 
-        <div class="mt-3">
-            <button type="submit" class="btn btn-primary" th:text="#{login.label}"></button>
+        <div class="vertical-center mt-5">
+            <button type="submit" class="btn btn-primary" th:text="#{login.go}"></button>
         </div>
 
     </form>
